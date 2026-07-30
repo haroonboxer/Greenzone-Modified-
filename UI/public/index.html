@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fa" direction="rtl" dir="rtl" style="direction: rtl;">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="description" content="Metronic React Demo 1" />
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
+
+    <title>سیستم مدیریت ساحات سبز</title>
+    
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="%PUBLIC_URL%/media/images/moi.png" />
+    
+    <!-- Splash Screen Styles -->
+    <link rel="stylesheet" id="layout-styles-anchor" href="%PUBLIC_URL%/splash-screen.css" />
+  </head>
+
+  <body id="kt_body" class="page-loading splash-screen mat-typography">
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+
+    <!--begin::Theme mode setup on page load-->
+    <script>
+      if (document.documentElement) {
+        // Force light mode
+        var themeMode = 'light';
+        document.documentElement.setAttribute('data-theme', themeMode);
+        localStorage.setItem('kt_theme_mode_value', themeMode);
+      }
+    </script>
+    <!--end::Theme mode setup on page load-->
+
+    <div id="root"></div>
+
+    <div id="splash-screen" class="splash-screen">
+      <img
+        src="%PUBLIC_URL%/media/images/index4.png"
+        alt="Metronic logo"
+        class="h-200px s-image"
+      />
+      <span>لطفا منتظر باشید...</span>
+    </div>
+
+    <div id="root-modals"></div>
+  </body>
+</html>
