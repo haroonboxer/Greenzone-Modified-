@@ -135,9 +135,18 @@ class AuthController extends Controller
         if (!is_array($claims)) {
             $claims = [];
         }
-        // $UserInfo = $decoded->UserInfo ?? [];
 
-        // $userinfo = json_decode($UserInfo, true);
+        $permissions = [];
+
+        foreach ($claims as $claim) {
+
+            if (
+                isset($claim['ClaimType'], $claim['ClaimValue']) &&
+                filter_var($claim['ClaimValue'], FILTER_VALIDATE_BOOLEAN)
+            ) {
+                $permissions[] = $claim['ClaimType'];
+            }
+        }
 
         $UserInfo = $decoded->user_info ?? null;
 
@@ -152,22 +161,54 @@ class AuthController extends Controller
             $userinfo = $UserInfo;
         }
         // dd($userinfo, gettype($userinfo));
+        // $payload = [
+
+        //     "user_id" => $decoded->{'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'},
+
+        //     "user_name" => $decoded->{'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'},
+
+        //     "user_info" => $userinfo,
+
+        //     "roles" => $roles,
+
+        //     "claims" => $claims,
+
+        //     "iat" => time(),
+
+        //     "exp" => time() + 3600
+
+        // ];
+
         $payload = [
 
-            "user_id" => $decoded->{'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'},
+            // UserModel
+            "id" =>             $decoded->{'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'},
 
-            "user_name" => $decoded->{'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'},
+            "name" =>           $userinfo->name ?? $userinfo['name'] ?? "",
 
-            "user_info" => $userinfo,
+            "username" =>       $decoded->{'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'}  ?? "",
 
-            "roles" => $roles,
+            "email" =>          $userinfo->email ?? $userinfo['email'] ?? "",
 
-            "claims" => $claims,
+            "image" =>          $userinfo->image ?? $userinfo['image'] ?? "",
 
+            "signature" =>      $userinfo->signature ?? $userinfo['signature'] ?? "",
+
+            "departmentName" => $userinfo->departmentName ?? $userinfo['departmentName'] ?? "",
+
+            "provinceName" =>   $userinfo->provinceName ?? $userinfo['provinceName'] ?? "",
+
+            // React UserModel expects these names
+            "role" => $roles,
+
+            "permissions" => $permissions,
+
+            "systems" => $userinfo->systems ?? $userinfo['systems'] ?? [],
+
+            // JWT
             "iat" => time(),
 
-            "exp" => time() + 3600
-
+            "exp" => time() + 3600,
         ];
 
         return JWT::encode(

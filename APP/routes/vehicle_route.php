@@ -4,7 +4,8 @@ use App\Http\Controllers\green_zone\vehicleController;
 use Illuminate\Support\Facades\Route;
 
 //vehicles Routes
-Route::middleware('auth:sanctum')->controller(vehicleController::class)->prefix('vehicle')->group(function () {
+// middleware('auth:sanctum')->
+Route::controller(vehicleController::class)->prefix('vehicle')->group(function () {
     Route::get('index', 'index');
     Route::get('expired', 'expiredLicenses');
     Route::post('store', 'store');

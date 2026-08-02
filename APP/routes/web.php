@@ -19,6 +19,7 @@ Route::middleware('auth')->group(function () {
   Route::get('printed_card/view/{id}', [PrintedCardController::class, 'generateIDCard']);
 });
 
+ 
 Route::post('/sso-login', [AuthController::class, 'ssoLogin']);
 
 Route::get('/sso/token', [AuthController::class, 'getReactToken']);

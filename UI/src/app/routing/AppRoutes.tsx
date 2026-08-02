@@ -21,7 +21,7 @@ const {PUBLIC_URL} = process.env
 
 const AppRoutes: FC = () => {
   const {currentUser} = useAuth()
-
+  console.log( currentUser);
   return (
     // <BrowserRouter basename={PUBLIC_URL}>
     //   <Routes>
@@ -85,7 +85,7 @@ const AppRoutes: FC = () => {
 
           <Route path="logout" element={<Logout />} />
 
-
+      
           {currentUser ? (
             <>
               <Route path="/*" element={<PrivateRoutes />} />

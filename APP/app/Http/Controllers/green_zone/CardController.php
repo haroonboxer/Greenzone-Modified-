@@ -16,11 +16,11 @@ class CardController extends Controller
     public $user;
     public function __construct()
     {
-        $this->middleware('permission:cards')->only('index');
-        $this->middleware(function ($request, $next) {
-            $this->user = Auth::guard('web')->user();
-            return $next($request);
-        });
+        // $this->middleware('permission:cards')->only('index');
+        // $this->middleware(function ($request, $next) {
+        //     $this->user = Auth::guard('web')->user();
+        //     return $next($request);
+        // });
     }
 
     public array $sortFields = [
@@ -34,6 +34,7 @@ class CardController extends Controller
 
     public function index(Request $request)
     {
+        dd('Reached CardController@index');
         $sortFieldInput = $request->input('sort_field', self::DEFAULT_SORT_FIELD);
         $sortField = in_array($sortFieldInput, $this->sortFields) ? $sortFieldInput : self::DEFAULT_SORT_FIELD;
         $sortOrder = $request->input('sort_order', self::DEFAULT_SORT_ORDER);

@@ -5,26 +5,26 @@ import {LayoutProvider, LayoutSplashScreen} from '../_metronic/layout/core'
 import {MasterInit} from '../_metronic/layout/MasterInit'
 import {AuthInit} from './modules/auth'
 
-// const App = () => {
-//   return (
-//     <Suspense fallback={<LayoutSplashScreen />}>
-//       <I18nProvider>
-//         <LayoutProvider>
-//           <AuthInit>
-//             <Outlet />
-//             <MasterInit />
-//           </AuthInit>
-//         </LayoutProvider>
-//       </I18nProvider>
-//     </Suspense>
-//   )
-// }
+const App = () => {
+  return (
+    <Suspense fallback={<LayoutSplashScreen />}>
+      <I18nProvider>
+        <LayoutProvider>
+          <AuthInit>
+            <Outlet />
+            <MasterInit />
+          </AuthInit>
+        </LayoutProvider>
+      </I18nProvider>
+    </Suspense>
+  )
+}
 
 // export {App}
  
 
-const App = () => {
-  return <Outlet />
-}
+// const App = () => {
+//   return <Outlet />
+// }
 
 export {App}

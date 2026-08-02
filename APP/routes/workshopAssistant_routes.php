@@ -4,7 +4,8 @@ use App\Http\Controllers\workshop\AssistantController;
 use Illuminate\Support\Facades\Route;
 
 //Assistant Routes
-Route::middleware('auth:sanctum')->controller(AssistantController::class)->prefix('workshopAssistant')->group(function () {
+// middleware('auth:sanctum')->
+Route::controller(AssistantController::class)->prefix('workshopAssistant')->group(function () {
     Route::get('index', 'index');
     Route::get('createButton', 'createButton');
     Route::post('store', 'store');

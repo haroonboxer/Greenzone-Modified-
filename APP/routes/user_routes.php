@@ -3,13 +3,13 @@
 use App\Http\Controllers\Auth\RoleController;
 use App\Http\Controllers\Auth\UserController;
 use Illuminate\Support\Facades\Route;
-
+// ->middleware('permission:admin-view')
 // users routes
 Route::get('/user-management-sys', function () {
     return view('auth.home');
-})->name('user-management-sys')->middleware('permission:admin-view');
-
-Route::middleware('auth:sanctum')->controller(UserController::class)->prefix('user')->group(function () {
+})->name('user-management-sys');
+// middleware('auth:sanctum')->
+Route::controller(UserController::class)->prefix('user')->group(function () {
     Route::get('index', 'index');
     Route::post('store', 'store');
     Route::get('edit/{id}', 'edit');

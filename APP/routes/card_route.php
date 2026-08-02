@@ -2,9 +2,9 @@
 
 use App\Http\Controllers\green_zone\CardController;
 use Illuminate\Support\Facades\Route;
-
+// middleware('auth:sanctum')->
 //Printed Cards Routes
-Route::middleware('auth:sanctum')->controller(CardController::class)->prefix('card')->group(function () {
+Route::controller(CardController::class)->prefix('card')->group(function () {
     Route::get('index', 'index');
     Route::post('store', 'store');
     Route::post('view/{id}', 'view');

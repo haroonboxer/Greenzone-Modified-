@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\ACU\ZoneController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,7 +13,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "ZoneController" middleware group. Now create something great!
 |
 */
-Route::middleware('auth:sanctum')->controller(ZoneController::class)->prefix('zone')->group(function () {
+// middleware('auth:sanctum')->
+Route::controller(ZoneController::class)->prefix('zone')->group(function () {
     Route::get('zone', 'index')->name('zone');
     Route::get('create-zone', 'create')->name('create-zone');
     Route::post('store-zone', 'store')->name('store-zone');
@@ -29,4 +31,3 @@ Route::middleware('auth:sanctum')->controller(ZoneController::class)->prefix('zo
     Route::post('bring-home-by-area-id', 'bringHomeByAreaId')->name('bring-home-by-area-id');
     Route::post('bring-area-by-gozar-id', 'bringAreaByGozarId')->name('bring-area-by-gozar-id');
 });
-?>

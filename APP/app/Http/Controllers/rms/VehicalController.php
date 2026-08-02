@@ -16,15 +16,15 @@ class VehicalController extends Controller
 
     public function __construct()
     {
-        $this->middleware('permission:vehical-list')->only('index');
-        $this->middleware('permission:vehical-create')->only('store');
-        $this->middleware('permission:vehical-view')->only('view');
-        $this->middleware('permission:vehical-edit')->only('update');
-        $this->middleware('permission:vehical-status')->only('changeStatus');
-        $this->middleware(function ($request, $next) {
-            $this->user = Auth::guard('web')->user();
-            return $next($request);
-        });
+        // $this->middleware('permission:vehical-list')->only('index');
+        // $this->middleware('permission:vehical-create')->only('store');
+        // $this->middleware('permission:vehical-view')->only('view');
+        // $this->middleware('permission:vehical-edit')->only('update');
+        // $this->middleware('permission:vehical-status')->only('changeStatus');
+        // $this->middleware(function ($request, $next) {
+        //     $this->user = Auth::guard('web')->user();
+        //     return $next($request);
+        // });
     }
 
     protected function index(Request $request)
@@ -57,6 +57,7 @@ class VehicalController extends Controller
 
     protected function store(Request $request)
     {
+         
         $company_id = $request->company_id ? decode_id($request->company_id) : null;
 
         if (!$company_id) {

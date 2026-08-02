@@ -4,7 +4,8 @@ use App\Http\Controllers\rms\EmployeeController;
 use Illuminate\Support\Facades\Route;
 
 //Employees Routes
-Route::middleware('auth:sanctum')->controller(EmployeeController::class)->prefix('employee')->group(function () {
+// middleware('auth:sanctum')->
+Route::controller(EmployeeController::class)->prefix('employee')->group(function () {
     Route::get('index', 'index');
     Route::get('createButton', 'createButton');
     Route::post('store', 'store');

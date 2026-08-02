@@ -4,7 +4,8 @@ use App\Http\Controllers\green_zone\VehicleSaveController;
 use Illuminate\Support\Facades\Route;
 
 //Licences Routes
-Route::middleware('auth:sanctum')->controller(VehicleSaveController::class)->prefix('vehicleSave')->group(function () {
+// middleware('auth:sanctum')->
+Route::controller(VehicleSaveController::class)->prefix('vehicleSave')->group(function () {
     Route::get('index', 'index');
     Route::post('store', 'store');
     Route::post('view/{id}', 'view');

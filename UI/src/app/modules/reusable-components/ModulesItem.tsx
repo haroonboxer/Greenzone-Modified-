@@ -3,6 +3,7 @@ import {toAbsoluteUrl} from '../../../_metronic/helpers'
 import {useAuth} from '../auth'
 const ModulesItem = ({title, text, link, icon}: any) => {
   const {currentUser} = useAuth()
+  
   return (
     <div className='col-xl-4 col-md-6 col-sm-6'>
       <div className='card card-xl-stretch mb-5 mb-xl-8 dashboard-item'>
@@ -23,8 +24,7 @@ const ModulesItem = ({title, text, link, icon}: any) => {
             <div className='flex-grow-1 me-2'>
               <Link
                 className={`fw-bold text-primary text-hover-primary fs-4 `}
-                to={currentUser?.username === 'Hashmatullah' ? '/card-print/list' : link}
-              >
+                to={currentUser?.username === 'Haroon' ? '/card-print/list' : link}>
                 {text}
                 {}
               </Link>

@@ -6,6 +6,10 @@ export interface AuthModel {
 export interface JwtPayload {
   exp: number;
 }
+export interface JwtUserModel extends UserModel {
+  iat: number;
+  exp: number;
+}
 export interface UserAddressModel {
   addressLine: string
   city: string
@@ -20,11 +24,11 @@ export interface UserCommunicationModel {
 }
 
 export interface UserModel {
-  id: number
+  id: string
   name: string
   username: string
-  image: string
-  signature: string
+  image: string | null
+signature: string | null
   departmentName: string
   provinceName: string
   email: string
@@ -34,19 +38,19 @@ export interface UserModel {
 }
 
 export class UserModel {
-  id: number
+  id: string
   name: string
   username: string
-  image: string
-  signature: string
+  image: string | null
+  signature: string | null
   departmentName: string
   provinceName: string
   email: string
   role: string[]
   permissions: string[]
-  systems: string[]
+
   constructor(
-    id = 0,
+    id = "0",
     name = '',
     email = '',
     username = '',
@@ -56,8 +60,10 @@ export class UserModel {
     provinceName = '',
     permissions: string[] = [],
     role: string[] = [],
-    systems: string[] = []
-  ) {
+  
+  ) 
+
+  {
     this.id = id
     this.name = name
     this.email = email
@@ -68,7 +74,7 @@ export class UserModel {
     this.provinceName = provinceName
     this.role = role
     this.permissions = permissions
-    this.systems = systems
+
   }
   hasPermission(role: string) {
     return this.permissions.some((p) => p === `${role}`)
