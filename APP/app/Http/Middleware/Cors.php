@@ -9,6 +9,7 @@ class cors
 {
     public function handle(Request $request, Closure $next)
     {
+        dd('CORS Middlewre reached');
         $response = $next($request);
 
         $response->headers->set(
@@ -34,6 +35,3 @@ class cors
         return $response;
     }
 }
-
-
-

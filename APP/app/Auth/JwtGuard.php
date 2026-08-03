@@ -78,7 +78,7 @@ class JwtGuard implements Guard
                  "claims" => $decoded->claims ?? []
 
             ]);
-
+         
             return $this->user;
         } catch (\Exception $e) {
 

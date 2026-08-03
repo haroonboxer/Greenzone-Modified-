@@ -5,7 +5,7 @@
     use App\Http\Controllers\green_zone\CardController;
     use App\Http\Controllers\rms\PrintedCardController;
     use Illuminate\Support\Facades\Route;
-
+    use Illuminate\Http\Request;
     /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -35,6 +35,9 @@
 
     Route::get('printed_card/view/{id}', [PrintedCardController::class, 'generateIDCard']);
     Route::get('/card/print/{id}', [CardController::class, 'generateLicense'])->name('card.print');
+
+
+
 
     //Route::middleware('auth:sanctum')->group(function () {
     // Route::middleware('auth:sso')->group(function(){

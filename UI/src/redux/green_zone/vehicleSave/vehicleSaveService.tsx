@@ -11,10 +11,23 @@ const createButton = async (params: any) => {
 }
 
 const store = async (formData: FormData) => {
+  console.log('this bbefore of stor vehicle' ,formData)
   const response = await axios.post('api/vehicleSave/store', formData)
-  return response.data
+  console.log('tis is response of store of vehicle')
+  // console.log('ths ==========',response,'this is stor response')
+  return "response"
 }
+// const store = async () => {
+//   try {
+//     const response = await axios.post('api/test', {
+//       name: 'Haroon'
+//     });
 
+//     console.log(response.data);
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 const viewVehicleSave = async (id: number, formData: any) => {
   const response = await axios.post(`api/vehicleSave/view/${id}`, formData)
   return response.data

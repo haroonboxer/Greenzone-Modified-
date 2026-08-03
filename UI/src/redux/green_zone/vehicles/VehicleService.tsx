@@ -16,6 +16,7 @@ const createButton = async (params: any) => {
 }
 
 const store = async (formData: FormData) => {
+  console.log("asdf");
   const response = await axios.post('api/vehicle/store', formData)
   return response.data
 }

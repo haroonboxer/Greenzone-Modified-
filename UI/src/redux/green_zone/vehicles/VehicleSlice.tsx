@@ -98,6 +98,7 @@ export const storeVehicle = createAsyncThunk(
   'api/vehicle/store',
   async (formData: any, thunkAPI) => {
     try {
+      
       return await VehicleService.store(formData)
     } catch (error: any) {
       const message =

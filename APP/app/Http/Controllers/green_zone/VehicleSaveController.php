@@ -15,11 +15,11 @@ class VehicleSaveController extends Controller
 
     public function __construct()
     {
-        $this->middleware('permission:vehicle-list')->only('index');
-        $this->middleware(function ($request, $next) {
-            $this->user = Auth::guard('web')->user();
-            return $next($request);
-        });
+        // $this->middleware('permission:vehicle-list')->only('index');
+        // $this->middleware(function ($request, $next) {
+        //     $this->user = Auth::guard('web')->user();
+        //     return $next($request);
+        // });
     }
 
     protected array $sortFields = [
@@ -30,6 +30,7 @@ class VehicleSaveController extends Controller
 
     public function index(Request $request)
     {
+        dd("Reach");
         $sortFieldInput = $request->input('sort_field', self::DEFAULT_SORT_FIELD);
         $sortField = in_array($sortFieldInput, $this->sortFields) ? $sortFieldInput : self::DEFAULT_SORT_FIELD;
         $sortOrder = $request->input('sort_order', self::DEFAULT_SORT_ORDER);
@@ -53,6 +54,7 @@ class VehicleSaveController extends Controller
 
     public function store(Request $request)
     {
+       
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
@@ -75,7 +77,7 @@ class VehicleSaveController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             return response([
-                'message' => $e->getMessage(),
+                'message' => Auth::guard('sso')->id(),
             ], 500);
         }
     }
