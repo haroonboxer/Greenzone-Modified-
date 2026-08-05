@@ -25,10 +25,14 @@ use Carbon\Carbon;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Hekmatinasser\Jalali\Jalali;
+use Illuminate\Support\Facades\Auth;
 
 function userid()
 {
-    return Auth::user()->id;
+    $user = Auth::guard('sso')->user();
+
+    $userId  = $user->id;
+    return  $userId;
 }
 
 function convertToEnglishDigits($string)

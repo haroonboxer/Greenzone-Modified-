@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\green_zone\CardController;
+use App\Http\Controllers\green_zone\VehicleSaveController;
 use App\Http\Controllers\rms\PrintedCardController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,7 +20,8 @@ Route::middleware('auth')->group(function () {
   Route::get('printed_card/view/{id}', [PrintedCardController::class, 'generateIDCard']);
 });
 
- 
+
 Route::post('/sso-login', [AuthController::class, 'ssoLogin']);
 
 Route::get('/sso/token', [AuthController::class, 'getReactToken']);
+

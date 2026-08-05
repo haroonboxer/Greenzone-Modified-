@@ -160,24 +160,7 @@ class AuthController extends Controller
         } else {
             $userinfo = $UserInfo;
         }
-        // dd($userinfo, gettype($userinfo));
-        // $payload = [
-
-        //     "user_id" => $decoded->{'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'},
-
-        //     "user_name" => $decoded->{'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'},
-
-        //     "user_info" => $userinfo,
-
-        //     "roles" => $roles,
-
-        //     "claims" => $claims,
-
-        //     "iat" => time(),
-
-        //     "exp" => time() + 3600
-
-        // ];
+         
 
         $payload = [
 

@@ -11,22 +11,20 @@ class SSOUser implements Authenticatable, Authorizable
     use AuthorizableTrait;
 
     public $id;
-
     public $name;
-
+    public $email;
     public $roles = [];
-
     public $claims = [];
+    public $image;
 
     public function __construct(array $attributes = [])
     {
         $this->id = $attributes['id'] ?? null;
-
         $this->name = $attributes['name'] ?? null;
-
+        $this->email = $attributes['email'] ?? null;
         $this->roles = $attributes['roles'] ?? [];
-
         $this->claims = $attributes['claims'] ?? [];
+        $this->image = $attributes['image'] ?? null;
     }
 
     public function getAuthIdentifierName()
@@ -52,10 +50,6 @@ class SSOUser implements Authenticatable, Authorizable
     public function setRememberToken($value) {}
 
     public function getRememberTokenName()
-    {
-        return null;
-    }
-    public function getAuthPasswordName()
     {
         return null;
     }

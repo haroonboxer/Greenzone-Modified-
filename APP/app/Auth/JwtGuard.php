@@ -12,12 +12,14 @@ class JwtGuard implements Guard
 
     public function user()
     {
+
         if ($this->user) {
             return $this->user;
         }
 
         $token = request()->bearerToken();
 
+      
         if (!$token) {
             return null;
         }
@@ -35,15 +37,12 @@ class JwtGuard implements Guard
                 $token,
 
                 new Key(
-
-                    "Laravel-React-Project-Secrute-Key-2027",
-
+                    env('JWT_SECRET'),
                     "HS256"
-
                 )
 
             );
-
+          
             /*
             |--------------------------------------------------------------------------
             | IMPORTANT
@@ -59,7 +58,7 @@ class JwtGuard implements Guard
             |
             */
 
-            
+
 
             /*
             |--------------------------------------------------------------------------
@@ -69,16 +68,20 @@ class JwtGuard implements Guard
 
             $this->user = new SSOUser([
 
-                "id" => $decoded->user_id,
+                "id" => $decoded->id ?? null,
 
-                "name" => $decoded->user_name,
+                "name" => $decoded->name ?? null,
 
-                 "roles" => $decoded->roles ?? [],
+                "email" => $decoded->email ?? null,
 
-                 "claims" => $decoded->claims ?? []
+                "image" => $decoded->image ?? null,
+
+                "roles" => $decoded->role ?? [],
+
+                "claims" => $decoded->permissions ?? []
 
             ]);
-         
+
             return $this->user;
         } catch (\Exception $e) {
 

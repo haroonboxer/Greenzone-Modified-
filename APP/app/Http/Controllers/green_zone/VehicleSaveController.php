@@ -8,6 +8,7 @@ use App\Models\green_zone\VehicleSave;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Nette\Schema\Message;
 
 class VehicleSaveController extends Controller
 {
@@ -30,7 +31,7 @@ class VehicleSaveController extends Controller
 
     public function index(Request $request)
     {
-        dd("Reach");
+
         $sortFieldInput = $request->input('sort_field', self::DEFAULT_SORT_FIELD);
         $sortField = in_array($sortFieldInput, $this->sortFields) ? $sortFieldInput : self::DEFAULT_SORT_FIELD;
         $sortOrder = $request->input('sort_order', self::DEFAULT_SORT_ORDER);
@@ -54,7 +55,7 @@ class VehicleSaveController extends Controller
 
     public function store(Request $request)
     {
-       
+
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
@@ -63,9 +64,9 @@ class VehicleSaveController extends Controller
         try {
             $vehicleSave = new VehicleSave();
             $vehicleSave->name = $request->name;
-            $vehicleSave->created_by = userid();
-            $vehicleSave->created_department = departmentId();
-            $vehicleSave->created_location = locationId();
+            $vehicleSave->created_by = 1; //userid();
+            $vehicleSave->created_department = 1; //departmentId();
+            $vehicleSave->created_location = 1; //locationId();
             $vehicleSave->save();
 
             DB::commit();
@@ -77,8 +78,16 @@ class VehicleSaveController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             return response([
-                'message' => Auth::guard('sso')->id(),
+
+                'error' => $e->getMessage(),
+                'sso' => userid(),
             ], 500);
+            // return response([
+            //     'error'=>$e->getMessage(),
+            //     'user'=>Auth::guard('sso')->user(),
+            //     'id'=>Auth::guard('sso')->id()
+            // ],500);// request()->bearerToken(); //,
+            //response(['message' => Auth::guard('sso')->id(),], 500);
         }
     }
 

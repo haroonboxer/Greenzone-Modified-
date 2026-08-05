@@ -13,4 +13,10 @@ Route::controller(VehicleSaveController::class)->prefix('vehicleSave')->group(fu
     Route::get('createButton', 'createButton');
     Route::post('changeStatus', 'changeStatus');
     Route::post('sentPrint', 'sentPrint');
+    Route::get('/test-auth', function () {
+
+        return response()->json([
+            'user' => Auth::guard('sso')->user()
+        ]);
+    });
 });

@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use App\Auth\JwtGuard;
+
 class AppServiceProvider extends ServiceProvider
 {
 
@@ -22,12 +23,11 @@ class AppServiceProvider extends ServiceProvider
             database_path('migrations/rms'),
             database_path('migrations/workshop'),
             database_path('migrations/green_zone'),
-        //     // Add more paths as needed
+            //     // Add more paths as needed
         ]);
-         Auth::extend('sso', function ($app, $name, array $config) {
-
+        Auth::extend('sso', function ($app, $name, array $config) {
+           // logger()->info('Creating JwtGuard');
             return new JwtGuard();
-
         });
     }
 }
