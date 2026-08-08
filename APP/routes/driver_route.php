@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 //Driver Routes
 // middleware('auth:sanctum')->
-Route::controller(driverController::class)->prefix('driver')->group(function () {
+Route::middleware('auth:sso')->controller(driverController::class)->prefix('driver')->group(function () {
     Route::get('index', 'index');
     Route::post('store', 'store');
     Route::post('view/{id}', 'view');

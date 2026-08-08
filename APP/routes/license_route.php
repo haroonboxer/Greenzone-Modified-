@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 //Licences Routes
 // middleware('auth:sanctum')->
-Route::controller(LicenseController::class)->prefix('license')->group(function () {
+Route::middleware('auth:sso')->controller(LicenseController::class)->prefix('license')->group(function () {
     Route::get('index', 'index');
     Route::post('store', 'store');
     Route::post('view/{id}', 'view');

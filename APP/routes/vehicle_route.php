@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 //vehicles Routes
 // middleware('auth:sanctum')->
-Route::controller(vehicleController::class)->prefix('vehicle')->group(function () {
+Route::middleware('auth:sso')->controller(vehicleController::class)->prefix('vehicle')->group(function () {
     Route::get('index', 'index');
     Route::get('expired', 'expiredLicenses');
     Route::post('store', 'store');

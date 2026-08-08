@@ -11,7 +11,7 @@ class AttachmentController extends Controller
 {
     public function __construct()
     {
-        // $this->middleware('permission:view')->only(['index']);
+         $this->middleware('permission:view')->only(['index']);
     }
 
     protected function index(Request $request)

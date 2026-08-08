@@ -16,11 +16,11 @@ class CardController extends Controller
     public $user;
     public function __construct()
     {
-        // $this->middleware('permission:cards')->only('index');
-        // $this->middleware(function ($request, $next) {
-        //     $this->user = Auth::guard('web')->user();
-        //     return $next($request);
-        // });
+        $this->middleware('permission:cards')->only('index');
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::guard('web')->user();
+            return $next($request);
+        });
     }
 
     public array $sortFields = [

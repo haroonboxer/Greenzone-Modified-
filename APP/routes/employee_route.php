@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 //Employees Routes
 // middleware('auth:sanctum')->
-Route::controller(EmployeeController::class)->prefix('employee')->group(function () {
+Route::middleware('auth:sso')->controller(EmployeeController::class)->prefix('employee')->group(function () {
     Route::get('index', 'index');
     Route::get('createButton', 'createButton');
     Route::post('store', 'store');

@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 //Printed Cards Routes
 // middleware('auth:sanctum')->
-Route::controller(CardPrintController::class)->prefix('printedCard')->group(function () {
+Route::middleware('auth:sso')->controller(CardPrintController::class)->prefix('printedCard')->group(function () {
     Route::get('index', 'index');
     Route::post('store', 'store');
     Route::post('view/{id}', 'view');

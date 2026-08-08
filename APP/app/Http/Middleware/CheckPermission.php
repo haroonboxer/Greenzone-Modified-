@@ -10,7 +10,7 @@ class CheckPermission
 {
     public function handle(Request $request, Closure $next, $permission)
     {
-        $user = Auth::guard('jwt')->user();
+        $user = Auth::guard('sso')->user();
 
         if (!$user) {
             return response()->json([
@@ -18,7 +18,7 @@ class CheckPermission
             ], 401);
         }
 
-        if (!in_array($permission, $user->permissions ?? [])) {
+        if (!in_array($permission, $user->claims)) {
             return response()->json([
                 'message' => 'Forbidden'
             ], 403);

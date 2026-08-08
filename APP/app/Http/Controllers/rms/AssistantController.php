@@ -10,7 +10,7 @@ use App\Models\rms\Assistant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use Exception;
 class AssistantController extends Controller
 {
     public function __construct()
@@ -21,9 +21,10 @@ class AssistantController extends Controller
         $this->middleware('permission:assistant-edit')->only('update');
         $this->middleware('permission:assistant-status')->only('changeStatus');
         $this->middleware(function ($request, $next) {
-            $this->user = Auth::guard('web')->user();
+        $this->user = Auth::guard('web')->user();
             return $next($request);
         });
+       
     }
 
     protected array $sortFields = ['assistants.id', 'assistants.name_dr', 'assistants.email', 'assistants.status', 'assistants.created_at'];

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 // middleware('auth:sanctum')->
-Route::controller(ZoneController::class)->prefix('zone')->group(function () {
+Route::middleware('auth:sso')->controller(ZoneController::class)->prefix('zone')->group(function () {
     Route::get('zone', 'index')->name('zone');
     Route::get('create-zone', 'create')->name('create-zone');
     Route::post('store-zone', 'store')->name('store-zone');

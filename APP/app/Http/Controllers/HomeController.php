@@ -8,12 +8,12 @@ class HomeController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('sso');
     }
 
     public function index()
     {
-        $data['systems'] = System::get(['id', 'name_' .  get_locale() . ' as name','icon','route']);
+        $data['systems'] = System::get(['id', 'name_' .  get_locale() . ' as name', 'icon', 'route']);
         return view('home', $data);
     }
 }

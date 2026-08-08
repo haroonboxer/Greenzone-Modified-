@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 //Companies Routes
 // middleware('auth:sanctum')->
-Route::controller(CompanyController::class)->prefix('workshopCompany')->group(function () {
+Route::middleware('auth:sso')->controller(CompanyController::class)->prefix('workshopCompany')->group(function () {
     Route::get('index', 'index');
     Route::post('store', 'store');
     Route::post('view/{id}', 'view');

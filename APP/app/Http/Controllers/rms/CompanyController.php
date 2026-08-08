@@ -7,7 +7,7 @@ use App\Http\Requests\rms\CompanyRequest;
 use App\Http\Resources\rms\CompanyResource;
 use App\Models\Auth\Attachments;
 use App\Models\rms\Company;
-use Exception;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

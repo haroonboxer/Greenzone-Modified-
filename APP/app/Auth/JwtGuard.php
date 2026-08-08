@@ -19,7 +19,7 @@ class JwtGuard implements Guard
 
         $token = request()->bearerToken();
 
-      
+
         if (!$token) {
             return null;
         }
@@ -42,7 +42,7 @@ class JwtGuard implements Guard
                 )
 
             );
-          
+
             /*
             |--------------------------------------------------------------------------
             | IMPORTANT

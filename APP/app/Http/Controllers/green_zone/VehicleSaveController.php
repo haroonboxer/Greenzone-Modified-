@@ -16,11 +16,11 @@ class VehicleSaveController extends Controller
 
     public function __construct()
     {
-        // $this->middleware('permission:vehicle-list')->only('index');
-        // $this->middleware(function ($request, $next) {
-        //     $this->user = Auth::guard('web')->user();
-        //     return $next($request);
-        // });
+        $this->middleware('permission:vehicle-list')->only('index');
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::guard('web')->user();
+            return $next($request);
+        });
     }
 
     protected array $sortFields = [
@@ -55,6 +55,9 @@ class VehicleSaveController extends Controller
 
     public function store(Request $request)
     {
+
+
+
 
         $request->validate([
             'name' => 'required|string|max:255',

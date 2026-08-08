@@ -17,18 +17,18 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class PrintedCardController extends Controller
 {
     protected $user;
-    // public function __construct()
-    // {
-    //     // $this->middleware('permission:printed-card-list')->only('index');
-    //     // $this->middleware('permission:printed-card-create')->only('store');
-    //     // $this->middleware('permission:printed-card-view')->only('view');
-    //     // $this->middleware('permission:printed-card-edit')->only('update');
-    //     // $this->middleware('permission:printed-card-status')->only('changeStatus');
-    //     // $this->middleware(function ($request, $next) {
-    //     //     $this->user = Auth::guard('web')->user();
-    //     //     return $next($request);
-    //     // });
-    // }
+    public function __construct()
+    {
+        $this->middleware('permission:printed-card-list')->only('index');
+        $this->middleware('permission:printed-card-create')->only('store');
+        $this->middleware('permission:printed-card-view')->only('view');
+        $this->middleware('permission:printed-card-edit')->only('update');
+        $this->middleware('permission:printed-card-status')->only('changeStatus');
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::guard('web')->user();
+            return $next($request);
+        });
+    }
 
     protected array $sortFields = [
         'printed_cards.id',

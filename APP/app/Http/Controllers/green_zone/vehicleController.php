@@ -21,15 +21,15 @@ class vehicleController extends Controller
     protected $user;
     public function __construct()
     {
-        // $this->middleware('permission:vehicle-list')->only('index');
-        // $this->middleware('permission:vehicle-create')->only('store');
-        // $this->middleware('permission:vehicle-view')->only('view');
-        // $this->middleware('permission:vehicle-edit')->only('update');
-        // $this->middleware('permission:vehicle-status')->only('changeStatus');
-        // $this->middleware(function ($request, $next) {
-        //     $this->user = Auth::guard('web')->user();
-        //     return $next($request);
-        // });
+        $this->middleware('permission:vehicle-list')->only('index');
+        $this->middleware('permission:vehicle-create')->only('store');
+        $this->middleware('permission:vehicle-view')->only('view');
+        $this->middleware('permission:vehicle-edit')->only('update');
+        $this->middleware('permission:vehicle-status')->only('changeStatus');
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::guard('web')->user();
+            return $next($request);
+        });
     }
 
     protected array $sortFields = [

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 //     });
 // });
 // Weapon Routes
-Route::prefix('weapon')->controller(WeaponsController::class)->group(function () {
+Route::prefix('weapon')->middleware('auth:sso')->controller(WeaponsController::class)->group(function () {
     Route::get('index', 'index');
     Route::post('store', 'store');
     Route::post('update/{id}', 'update');

@@ -9,7 +9,7 @@ Route::get('/user-management-sys', function () {
     return view('auth.home');
 })->name('user-management-sys');
 // middleware('auth:sanctum')->
-Route::controller(UserController::class)->prefix('user')->group(function () {
+Route::middleware('auth:sso')->controller(UserController::class)->prefix('user')->group(function () {
     Route::get('index', 'index');
     Route::post('store', 'store');
     Route::get('edit/{id}', 'edit');
@@ -24,7 +24,7 @@ Route::controller(UserController::class)->prefix('user')->group(function () {
     Route::post('refresh_token', 'refreshToken');
 });
 
-Route::controller(UserController::class)->prefix('user')->group(function () {
+Route::middleware('auth:sso')->controller(UserController::class)->prefix('user')->group(function () {
     Route::get('auth-user', 'authUser');
     Route::post('change-password', 'changePassword');
     Route::post('logout', 'logout');

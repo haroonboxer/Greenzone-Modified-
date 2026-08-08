@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 //Workshop Boss Routes
 // middleware('auth:sanctum')->
-Route::controller(BossController::class)->prefix('workshopBoss')->group(function () {
+Route::middleware('auth:sso')->controller(BossController::class)->prefix('workshopBoss')->group(function () {
     Route::get('index', 'index');
     Route::post('store', 'store');
     Route::post('view/{id}', 'view');
