@@ -11,10 +11,10 @@ const createButton = async (params: any) => {
 }
 
 const store = async (formData: FormData) => {
-  console.log('this bbefore of stor vehicle' ,formData)
+ 
   const response = await axios.post('api/vehicleSave/store', formData)
-  console.log('tis is response of store of vehicle')
-  // console.log('ths ==========',response,'this is stor response')
+  
+ 
   return "response"
 }
 // const store = async () => {
@@ -23,7 +23,7 @@ const store = async (formData: FormData) => {
 //       name: 'Haroon'
 //     });
 
-//     console.log(response.data);
+ 
 //   } catch (error) {
 //     console.error(error);
 //   }

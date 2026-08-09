@@ -4,7 +4,8 @@ import DataTable from './Datatable'
 
 const CardsList: React.FC = () => {
   const {t} = useTranslation()
-  const [refreshKey, setRefreshKey] = useState(0)
+  const [refreshKey, setRefreshKey] = useState(0);
+  
   return (
     <Fragment>
       <div
@@ -15,7 +16,7 @@ const CardsList: React.FC = () => {
           <div className='card-title m-0'>
             <h3 className='fw-bolder m-0'>
               <i className='fas fa-list fs-4 text-primary'></i>&nbsp;
-              {t('global.list', {name: t('printedCard.printedCard')})}
+              {t('global.list', {name: t('printedCard.printedCard')})} 
             </h3>
           </div>
           <div className='d-flex align-items-center'>

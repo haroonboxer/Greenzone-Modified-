@@ -55,7 +55,7 @@ const ViewUser = () => {
       if (result.isConfirmed) {
         const response = await dispatch(changeStatus({id, status}))
         if (changeStatus.fulfilled.match(response)) {
-          console.log(result)
+        
           toast.success(<p className='fs-4 fw-bold'>{response.payload}</p>)
 
           const viewUserResponse = await dispatch(viewUser(id))
@@ -63,10 +63,10 @@ const ViewUser = () => {
           if (viewUser.fulfilled.match(viewUserResponse)) {
             setLoader(false)
           } else {
-            console.log(viewUserResponse)
+            
           }
         } else {
-          console.log(response)
+         
         }
       }
     })

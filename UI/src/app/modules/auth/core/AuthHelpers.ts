@@ -1,102 +1,111 @@
-import { jwtDecode } from 'jwt-decode'
-import {Logout} from '../Logout'
-import {AuthModel, JwtUserModel} from './_models'
+ 
+import { Logout } from "../Logout";
+import { AuthModel } from "./_models";
 
-const AUTH_LOCAL_STORAGE_KEY = 'kt-auth-react-v'
+const AUTH_LOCAL_STORAGE_KEY = "kt-auth-react-v";
+
+/**
+ * Get authentication information from localStorage
+ */
 const getAuth = (): AuthModel | undefined => {
-  if (!localStorage) {
-    return
-  }
+    try {
+        const lsValue = localStorage.getItem(AUTH_LOCAL_STORAGE_KEY);
 
-  const lsValue: string | null = localStorage.getItem(AUTH_LOCAL_STORAGE_KEY)
-  if (!lsValue) {
-    return
-  }
-
-  try {
-    const auth: AuthModel = JSON.parse(lsValue) as AuthModel
-    if (auth) {
-      // You can easily check auth_token expiration also
-      return auth
-    }
-  } catch (error) {
-    console.error('AUTH LOCAL STORAGE PARSE ERROR', error)
-  }
-}
-
-const setAuth = (auth: AuthModel) => {
-  if (!localStorage) {
-    return
-  }
-
-  try {
-    const lsValue = JSON.stringify(auth)
-    localStorage.setItem(AUTH_LOCAL_STORAGE_KEY, lsValue)
-  } catch (error) {
-    console.error('AUTH LOCAL STORAGE SAVE ERROR', error)
-  }
-}
-
-const removeAuth = () => {
-  if (!localStorage) {
-    return
-  }
-
-  try {
-    localStorage.removeItem(AUTH_LOCAL_STORAGE_KEY)
-  } catch (error) {
-    console.error('AUTH LOCAL STORAGE REMOVE ERROR', error)
-  }
-}
-
-export function setupAxios(axios: any) {
-  axios.defaults.headers.Accept = 'application/json'
-  axios.interceptors.request.use(
-    (config: {headers: {Authorization: string}}) => {
-      const auth = getAuth();
-       
-      if (auth && auth.api_token) {
-        
-        
-        config.headers.Authorization = `Bearer ${auth.api_token}`
-        const tokenExpirationDate = new Date(auth.expires_at)
-        const currentDate = new Date()
-        try {
-          if (tokenExpirationDate !== null && tokenExpirationDate <= currentDate) {
-            window.location.reload()
-            removeAuth()
-            Logout()
-
-            // Send a request to refresh the token using the refresh token
-            // const refreshResponse = axios.post(
-            //   `${process.env.REACT_APP_API_URL}api/refresh_token`,
-            //   {
-            //     refresh_token: auth.api_token,
-            //   }
-            // )
-            // const newAccessToken = refreshResponse.data.refresh_token
-            // const newTokenExpiration = refreshResponse.data.expires_at
-            // config.headers.Authorization = `Bearer ${refreshResponse.data.refresh_token}`
-            // // Update the access token and token expiration in the storage
-            // auth.api_token = newAccessToken
-            // auth.expires_at = newTokenExpiration
-          } else {
-            const extendedExpirationDate = new Date(currentDate.getTime() + 30 * 60000) // 30 minutes in milliseconds
-            auth.expires_at = extendedExpirationDate.toISOString()
-          }
-        } catch (error) {
-          removeAuth()
-          Logout()
-          // Handle token refresh failure (e.g., redirect to login page)
-          window.location.reload()
-          console.log('Token refresh failed:', error)
-          // return Promise.reject(error)
+        if (!lsValue) {
+            return undefined;
         }
-      }
-      return config
-    },
-    (err: any) => Promise.reject(err)
-  )
+
+        return JSON.parse(lsValue) as AuthModel;
+    } catch (error) {
+        console.error("AUTH LOCAL STORAGE PARSE ERROR", error);
+        return undefined;
+    }
+};
+
+/**
+ * Save authentication information to localStorage
+ */
+const setAuth = (auth: AuthModel) => {
+    try {
+        localStorage.setItem(
+            AUTH_LOCAL_STORAGE_KEY,
+            JSON.stringify(auth)
+        );
+
+ 
+    } catch (error) {
+        console.error("AUTH LOCAL STORAGE SAVE ERROR", error);
+    }
+};
+
+/**
+ * Remove authentication information from localStorage
+ */
+const removeAuth = () => {
+    try {
+        localStorage.removeItem(AUTH_LOCAL_STORAGE_KEY);
+
+     
+    } catch (error) {
+        console.error("AUTH LOCAL STORAGE REMOVE ERROR", error);
+    }
+};
+
+/**
+ * Configure Axios
+ */
+export function setupAxios(axios: any) {
+    axios.defaults.headers.Accept = "application/json";
+
+    axios.interceptors.request.use(
+        (config: any) => {
+            const auth = getAuth();
+
+            if (auth?.api_token) {
+
+                // Add JWT to every API request
+                config.headers = config.headers || {};
+
+                config.headers.Authorization =
+                    `Bearer ${auth.api_token}`;
+
+           
+
+                // Check expiration
+                if (auth.expires_at) {
+                    const tokenExpirationDate =
+                        new Date(auth.expires_at);
+
+                    const currentDate = new Date();
+
+                    if (tokenExpirationDate <= currentDate) {
+
+                     
+
+                        removeAuth();
+
+                        Logout();
+
+                        return Promise.reject(
+                            new Error("Authentication token expired")
+                        );
+                    }
+                }
+            }
+
+            return config;
+        },
+
+        (error: any) => {
+            return Promise.reject(error);
+        }
+    );
 }
 
-export {getAuth, setAuth, removeAuth, AUTH_LOCAL_STORAGE_KEY}
+export {
+    getAuth,
+    setAuth,
+    removeAuth,
+    AUTH_LOCAL_STORAGE_KEY,
+};
+ 

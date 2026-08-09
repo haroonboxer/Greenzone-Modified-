@@ -84,7 +84,7 @@ const EditRoles = () => {
   const handleFulfilledResponse = (response: any) => {
     const {meta, payload} = response
     if (meta.requestStatus === 'fulfilled') {
-      // console.log(meta)
+     
       toast.success(<p className='fs-4 fw-bold'>{payload.message}</p>)
       navigate('/authentication/roles')
     } else {

@@ -41,7 +41,7 @@ export function requestPassword(email: string) {
 }
 
 // export function getUserByToken(token: string) {
-//   console.log(token);
+ 
 //   return axios.post<UserModel>(GET_USER_BY_ACCESSTOKEN_URL, {
 //     api_token: token,
 //   })

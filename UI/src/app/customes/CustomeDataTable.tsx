@@ -35,7 +35,7 @@ const CustomeDataTable = ({columns, fetchUrl, headers, inputsOne}: any) => {
       setSortColumn(columns[0])
     }, 500)
   ).current
-  console.log(columns[6])
+ 
   const handlePerPage = (perPage: any) => {
     setCurrentPage(1)
     setPerPage(perPage)

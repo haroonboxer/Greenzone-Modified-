@@ -12,12 +12,12 @@ export interface Permission {
 export const getCurrentUser = () => {
 
     const token = localStorage.getItem("api_token");
-    console.log(token);
+    
     if (!token)
         return null;
 
     const user = jwtDecode<any>(token);
-    console.log(user);
+   
    
 
     return user;

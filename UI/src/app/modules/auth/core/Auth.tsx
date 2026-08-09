@@ -14,7 +14,8 @@ import * as authHelper from './AuthHelpers'
 import {getUserByToken} from './_requests'
 import {WithChildren} from '../../../../_metronic/helpers'
 import axios from 'axios'
-
+import { jwtDecode } from "jwt-decode";
+ 
 type AuthContextProps = {
   auth: AuthModel | undefined
   saveAuth: (auth: AuthModel | undefined) => void
@@ -52,12 +53,13 @@ const AuthProvider: FC<WithChildren> = ({children}) => {
   }
 
   const logout = async () => {
-    await axios.post('api/user/logout')
+    // await axios.post('api/user/logout')
     saveAuth(undefined)
     setCurrentUser(undefined)
   }
 
   const hasPermission = (permission: string) => {
+    console.log(permission);
     return currentUser?.permissions.some((p: string) => p === `${permission}`)
   }
 
@@ -70,48 +72,84 @@ const AuthProvider: FC<WithChildren> = ({children}) => {
   )
 }
 
-const AuthInit: FC<WithChildren> = ({children}) => {
-  const {auth, logout, setCurrentUser} = useAuth()
-  const didRequest = useRef(false)
-  const [showSplashScreen, setShowSplashScreen] = useState(true)
-  // We should request user by authToken (IN OUR EXAMPLE IT'S API_TOKEN) before rendering the application
-  useEffect(() => {
-    console.log("Setting splash to false");
-setShowSplashScreen(false);
-    const requestUser = async (apiToken: string) => {
-      try {
-        console.log("requestUser called");
-        if (!didRequest.current) {
-          // const {data} = await getUserByToken(apiToken)
-           const {data} = await getUserByToken()
-          if (data) {
-            setCurrentUser(data)
-          }
-        }
-      } catch (error) {
-        console.error(error)
-        if (!didRequest.current) {
-         
-        }
-      } finally {
-        setShowSplashScreen(false)
-      }
+ 
+const AuthInit: FC<WithChildren> = ({ children }) => {
+    const { auth, setCurrentUser } = useAuth();
 
-      return () => (didRequest.current = true)
-    }
+    const [showSplashScreen, setShowSplashScreen] = useState(true);
 
-    if (auth && auth.api_token) {
-      console.log("Auth:", auth);
-      console.log("Splash:", showSplashScreen);
-      requestUser(auth.api_token)
-    } else {
-      
-      setShowSplashScreen(false)
-    }
-    // eslint-disable-next-line
-  }, [])
+    useEffect(() => {
 
-  return showSplashScreen ? <LayoutSplashScreen /> : <>{children}</>
-}
+        const initializeAuth = () => {
+
+            try {
+             
+
+                if (!auth || !auth.api_token) {
+                   
+
+                    setShowSplashScreen(false);
+                    return;
+                }
+
+                
+
+                // Decode JWT
+                const decoded = jwtDecode(auth.api_token);
+
+                 
+
+                // Check JWT expiration
+                if (decoded.exp) {
+
+                    const expirationTime = decoded.exp * 1000;
+
+                    if (expirationTime <= Date.now()) {
+
+                      
+
+                        authHelper.removeAuth();
+                        setCurrentUser(undefined);
+
+                        setShowSplashScreen(false);
+                        return;
+                    }
+                }
+
+                // Restore user after browser reload
+                setCurrentUser(decoded as UserModel);
+
+                 
+
+            } catch (error) {
+
+                console.error(
+                    "❌ AUTH INIT ERROR:",
+                    error
+                );
+
+                authHelper.removeAuth();
+                setCurrentUser(undefined);
+
+            } finally {
+
+                setShowSplashScreen(false);
+            }
+        };
+
+        initializeAuth();
+
+    }, [auth, setCurrentUser]);
+
+    return showSplashScreen ? (
+        <LayoutSplashScreen />
+    ) : (
+        <>{children}</>
+    );
+};
+ 
+
+ 
+
 
 export {AuthProvider, AuthInit, useAuth}

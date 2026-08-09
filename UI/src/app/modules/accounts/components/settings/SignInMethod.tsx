@@ -59,7 +59,7 @@ const SignInMethod: React.FC = (props: any) => {
         setPasswordForm(false)
         resetForm()
       } catch (error) {
-        console.log(error)
+         
         setLoading2(false)
         setPasswordForm(false)
       }

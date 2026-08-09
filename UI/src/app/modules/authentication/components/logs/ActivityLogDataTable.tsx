@@ -54,7 +54,7 @@ const ActivityLogDataTable = (props: any) => {
         setData(data.data)
         setPagination(data.meta)
       } catch (error) {
-        console.log(error)
+       
         setIsAuthorized(false)
       }
       setTimeout(() => {

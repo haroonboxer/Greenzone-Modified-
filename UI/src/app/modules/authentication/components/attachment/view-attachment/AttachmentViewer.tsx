@@ -25,7 +25,7 @@ const AttachmentViewer = ({id, form_code}: any) => {
       setData(data.data)
       setPagination(data.meta)
     } catch (error) {
-      console.log(error)
+   
     }
     setTimeout(() => {
       setLoading(false)

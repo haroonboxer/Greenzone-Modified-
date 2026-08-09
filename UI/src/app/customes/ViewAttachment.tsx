@@ -15,7 +15,7 @@ const ViewAttachment = ({data, formCode}: any) => {
         link.click()
       })
     } catch (error) {
-      console.log(error)
+      
     }
   }
   return (

@@ -52,7 +52,7 @@ const Language = ({
 
   const handleChangeLanguage = (lang: any) => {
     i18n.changeLanguage(lang)
-    console.log(lang)
+    
   }
 
   const currentLanguage = languages.find((x) => x.lang === i18n.language)

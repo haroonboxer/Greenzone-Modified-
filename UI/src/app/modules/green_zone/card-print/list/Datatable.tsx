@@ -104,6 +104,7 @@ const DataTable: React.FC<DataTableProps> = ({headers, columns, onRecordsChange,
   }
   // ====================================================================================================================================
   useEffect(() => {
+  
     dispatch(getVehicleSave({per_page: 100})) // or your API params
       .then((res: any) => {
         if (res.meta?.requestStatus === 'fulfilled') {
@@ -405,7 +406,7 @@ const DataTable: React.FC<DataTableProps> = ({headers, columns, onRecordsChange,
                                     await dispatch(
                                       changeStatusOfLicense({id: item.id, status: 2})
                                     ).unwrap()
-                                    console.log('object')
+                                   
 
                                     setDataa(!dataa)
                                     Swal.fire({

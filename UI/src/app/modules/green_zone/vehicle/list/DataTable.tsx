@@ -112,6 +112,7 @@ const DataTable: React.FC<any> = ({headers, columns, onRecordsChange}) => {
   }
 
   useEffect(() => {
+     
     setLoading(true)
     dispatch(getVehicle(params)).then((res) => {
       if (res.meta.requestStatus === 'fulfilled') {

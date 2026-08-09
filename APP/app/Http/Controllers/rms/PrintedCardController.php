@@ -41,6 +41,7 @@ class PrintedCardController extends Controller
 
     protected function index(Request $request)
     {
+  
         $sortFieldInput = $request->input('sort_field', self::DEFAULT_SORT_FIELD);
         $sortField = in_array($sortFieldInput, $this->sortFields) ? $sortFieldInput : self::DEFAULT_SORT_FIELD;
         $sortOrder = $request->input('sort_order', self::DEFAULT_SORT_ORDER);
@@ -123,6 +124,7 @@ class PrintedCardController extends Controller
 
     protected function view($id)
     {
+        
         $printedCard = PrintedCard::join('users', 'users.id', '=', 'printed_cards.created_by')
             ->join('provinces', 'provinces.id', '=', 'printed_cards.created_location')
             ->join('departments', 'departments.id', '=', 'printed_cards.created_department')

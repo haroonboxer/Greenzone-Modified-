@@ -77,8 +77,7 @@ const HeaderWrapper = () => {
           id='kt_app_header_wrapper'
           className='d-flex align-items-stretch justify-content-between flex-lg-grow-1'
         >
-          {config.app.header.default?.content === 'menu' &&
-            config.app.header.default.menu?.display && (
+          {config.app.header.default?.content === 'menu' &&config.app.header.default.menu?.display && (
               <div
                 className='app-header-menu app-header-mobile-drawer align-items-stretch'
                 data-kt-drawer='true'

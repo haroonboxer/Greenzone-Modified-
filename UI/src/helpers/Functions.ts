@@ -14,6 +14,6 @@ export const downloadFile = (url: any, id: number, file_name: string) => {
       link.click()
     })
   } catch (error) {
-    console.log(error)
+ 
   }
 }
