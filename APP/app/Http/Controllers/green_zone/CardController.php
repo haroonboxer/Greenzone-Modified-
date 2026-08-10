@@ -34,7 +34,8 @@ class CardController extends Controller
 
     public function index(Request $request)
     {
-        dd('Reached CardController@index');
+
+    
         $sortFieldInput = $request->input('sort_field', self::DEFAULT_SORT_FIELD);
         $sortField = in_array($sortFieldInput, $this->sortFields) ? $sortFieldInput : self::DEFAULT_SORT_FIELD;
         $sortOrder = $request->input('sort_order', self::DEFAULT_SORT_ORDER);
