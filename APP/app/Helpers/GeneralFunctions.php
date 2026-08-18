@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\Auth;
 function userid()
 {
     $user = Auth::guard('sso')->user();
-
+    dd($user);
     $userId  = $user->id;
     return  $userId;
 }

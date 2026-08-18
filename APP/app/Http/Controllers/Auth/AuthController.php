@@ -160,16 +160,16 @@ class AuthController extends Controller
         } else {
             $userinfo = $UserInfo;
         }
-         
 
+    
         $payload = [
 
             // UserModel
-            "id" =>             $decoded->{'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'},
+            "id" =>             $userinfo->Id ?? $userinfo['Id'] ?? "",
 
-            "name" =>           $userinfo->name ?? $userinfo['name'] ?? "",
+            "name" =>           $userinfo->Name ?? $userinfo['Name'] ?? "",
 
-            "username" =>       $decoded->{'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'}  ?? "",
+            "username" =>       $userinfo->UserName ?? $userinfo["UserName"],
 
             "email" =>          $userinfo->email ?? $userinfo['email'] ?? "",
 

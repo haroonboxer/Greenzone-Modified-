@@ -15,7 +15,7 @@ const CustomeDataTable = ({columns, fetchUrl, headers, inputsOne}: any) => {
   const [search, setSearch] = useState('')
   const [pagination, setPagination] = useState({})
   const [currentPage, setCurrentPage] = useState(1)
-
+ 
   const [loading, setLoading] = useState(true)
 
   const handleSort = (column: any) => {

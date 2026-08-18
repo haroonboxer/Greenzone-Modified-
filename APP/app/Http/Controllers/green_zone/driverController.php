@@ -108,12 +108,7 @@ class driverController extends Controller
 
     protected function store(driverRequest $request)
     {
-        // Check if any driver already has status = 1
-        // if (Driver::where('status', 1)->exists()) {
-        //     return response([
-        //         'message' => 'Cannot create a new driver. An active driver already exists.'
-        //     ], 400);
-        // }
+      
 
 
         DB::beginTransaction();
