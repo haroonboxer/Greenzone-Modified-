@@ -25,7 +25,10 @@ const initialState: VehicleSaveState = {
 // Get VehicleSave from server
 export const getVehicleSave = createAsyncThunk('api/vehicleSave/index', async (params: any, thunkAPI) => {
   try {
-    return await vehicleSaveServiceService.getVehicleSave(params)
+     
+    const data =await  vehicleSaveServiceService.getVehicleSave(params);
+     
+     return  data;
   } catch (error: any) {
     const message =
       (error.response && error.response.data && error.response.data.message) ||

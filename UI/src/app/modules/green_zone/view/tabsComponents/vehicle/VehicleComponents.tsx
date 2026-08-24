@@ -7,7 +7,7 @@ import Loader from 'app/pages/loading/Loader'
 import { to_jalali } from 'helpers/DateConverter'
 import RecordOwnerView from 'helpers/CustomeRecordOwnerView'
 import VehicleComponentsForm from './VehicleComponentsForm'
-import { viewVehicle } from 'redux/green_zone/vehicles/VehicleSlice'
+  import { viewVehicle } from 'redux/green_zone/vehicles/VehicleSlice'
 import { defaultVehicleView, VehicleView } from 'app/modules/green_zone/vehicle/__model'
 
 const VehicleComponents = () => {

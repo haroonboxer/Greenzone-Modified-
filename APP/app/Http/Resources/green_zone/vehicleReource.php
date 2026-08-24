@@ -27,7 +27,7 @@ class vehicleReource extends JsonResource
             'back_photo' => $this->back_photo ? asset($this->back_photo) : null,
             'plate_photo' => $this->plate_photo ? asset($this->plate_photo) : null,
             'created_by' => $this->created_by,
-            'ownerName' => $this->when(isset($this->ownerName), $this->ownerName),
+            'ownerName' =>  $this->created_by_name, //$this->when(isset($this->ownerName), $this->ownerName),
             'driverName' => $this->when(isset($this->driverName), $this->driverName),
             'created_at' => $this->created_at ? $this->created_at->format('Y-m-d H:i') : null,
             'createdDepartment' => $this->createdDepartment,

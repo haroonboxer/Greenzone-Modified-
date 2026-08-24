@@ -194,6 +194,7 @@ export const VehicleSlice = createSlice({
         state.vehicleIndex = action.payload
       })
       .addCase(getExpiredVehicles.fulfilled, (state, action: PayloadAction<any>) => {
+   
         state.vehicleIndex = action.payload
       })
       .addCase(viewVehicle.fulfilled, (state, action: PayloadAction<any>) => {

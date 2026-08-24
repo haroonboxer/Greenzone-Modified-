@@ -12,6 +12,7 @@ const getExpiredVehicles = async (params: any) => {
 
 const createButton = async (params: any) => {
   const response = await axios.get(`api/vehicle/createButton`, {params})
+
   return response.data
 }
 
@@ -22,7 +23,9 @@ const store = async (formData: FormData) => {
 }
 
 const viewVehicle = async (id: number, formData: any) => {
+
   const response = await axios.post(`api/vehicle/view/${id}`, formData)
+    console.log("asdf",response.data);
   return response.data
 }
 

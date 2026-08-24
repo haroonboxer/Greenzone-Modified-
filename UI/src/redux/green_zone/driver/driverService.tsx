@@ -17,6 +17,7 @@ const store = async (formData: FormData) => {
 
 const viewDriver = async (id: number, formData: any) => {
   const response = await axios.post(`api/driver/view/${id}`, formData)
+  console.log("response.data");
   return response.data
 }
 

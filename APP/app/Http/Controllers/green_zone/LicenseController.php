@@ -38,6 +38,7 @@ class LicenseController extends Controller
 
     public function index(Request $request)
     {
+
         $sortFieldInput = $request->input('sort_field', 'id');
         $sortField = in_array($sortFieldInput, $this->sortFields) ? $sortFieldInput : 'id';
         $sortOrder = $request->input('sort_order', 'desc');
@@ -47,14 +48,15 @@ class LicenseController extends Controller
             $decodedVehicle = decode_id($vehicleId);
             $vehicleId = is_numeric($decodedVehicle) ? $decodedVehicle : ($decodedVehicle['id'] ?? null);
         }
-
-        $query = License::join('users', 'users.id', 'gzlicenses.created_by')
-            ->join('vehicles', 'vehicles.id', 'gzlicenses.vehicle_id')
+        // in here
+        // join('users', 'users.id', 'gzlicenses.created_by')
+        // 
+        $query = License::join('vehicles', 'vehicles.id', 'gzlicenses.vehicle_id')
             ->join('drivers', 'drivers.id', 'gzlicenses.driver_id')
             ->select(
                 'gzlicenses.*',
                 'drivers.name as driver_name',
-                'users.name as ownerName'
+                'gzlicenses.created_by_name as ownerName'
             )
             ->when($vehicleId, fn($q) => $q->where('gzlicenses.vehicle_id', $vehicleId))
             ->when($request->filled('license_type'), fn($q) => $q->where('gzlicenses.license_type', $request->license_type))

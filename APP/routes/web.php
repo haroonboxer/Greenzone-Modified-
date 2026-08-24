@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Route;
 //   return view('auth.login');
 // });
 
-// Route::get('/card/print/{id}', [CardController::class, 'generateLicense'])
-//   ->name('card.print'); // no auth
+Route::get('/card/print/{id}', [CardController::class, 'generateLicense'])
+  ->name('card.print'); // no auth
 
 //Illuminate\Support\Facades\Auth::routes();
 Route::middleware('auth')->group(function () {

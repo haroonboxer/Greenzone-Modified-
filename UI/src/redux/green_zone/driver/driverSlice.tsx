@@ -28,7 +28,9 @@ const initialState: DriverState = {
 // Get driver from server
 export const getDriver = createAsyncThunk('api/driver/index', async (params: any, thunkAPI) => {
   try {
-    return await driverService.getDriver(params)
+    const data = await driverService.getDriver(params);
+    console.log(data);
+    return data;
   } catch (error: any) {
     const message =
       (error.response && error.response.data && error.response.data.message) ||

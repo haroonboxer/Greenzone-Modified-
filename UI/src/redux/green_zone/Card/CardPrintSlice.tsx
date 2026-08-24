@@ -30,7 +30,9 @@ export const getPrintedCard = createAsyncThunk(
   'api/card/index',
   async (params: any, thunkAPI) => {
     try {
-      return await cardPrintService.getPrintedCard(params)
+      const data =  await cardPrintService.getPrintedCard(params);
+ 
+      return data;
     } catch (error: any) {
       const message =
         (error.response && error.response.data && error.response.data.message) ||

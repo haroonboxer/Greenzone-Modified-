@@ -18,7 +18,7 @@ class CardController extends Controller
     {
         $this->middleware('permission:cards')->only('index');
         $this->middleware(function ($request, $next) {
-            $this->user = Auth::guard('web')->user();
+            $this->user = Auth::guard('sso')->user();
             return $next($request);
         });
     }
@@ -32,65 +32,149 @@ class CardController extends Controller
     ];
 
 
+    // public function index(Request $request)
+    // {
+
+
+    //     $sortFieldInput = $request->input('sort_field', self::DEFAULT_SORT_FIELD);
+    //     $sortField = in_array($sortFieldInput, $this->sortFields) ? $sortFieldInput : self::DEFAULT_SORT_FIELD;
+    //     $sortOrder = $request->input('sort_order', self::DEFAULT_SORT_ORDER);
+    //     $vehicleId = $request->has('vehicle_id') ? decode_id($request->vehicle_id) : null;
+
+    //     $query = DB::table('gzlicenses')
+    //         ->join('vehicles', 'vehicles.id', '=', 'gzlicenses.vehicle_id')
+    //         ->leftJoin('vehicle_saves', 'vehicle_saves.id', '=', 'vehicles.vehicle_type')
+    //         ->join('drivers', 'drivers.id', '=', 'gzlicenses.driver_id')
+    //         // ->join('users', 'users.id', '=', 'gzlicenses.created_by')
+    //         //->join('departments', 'departments.id', '=', 'gzlicenses.created_department')
+    //         //->join('provinces', 'provinces.id', '=', 'gzlicenses.created_location')
+    //         ->select(
+    //             'gzlicenses.*',
+    //             'vehicles.vehicle_type',
+    //             'vehicle_saves.name as vehicle_type_name',
+    //             'vehicles.vehicle_color',
+    //             'vehicles.vehicle_source',
+    //             'vehicles.vehicle_platte_no',
+    //             'vehicles.front_photo as front_photo',
+    //             'drivers.name as driver_name',
+    //             'drivers.photo as driver_photo',
+    //             'gzlicenses.created_by_name as created_by',
+    //             // 'provinces.name_dr as createdLocation',
+    //             // 'departments.name_da as createdDepartment',
+    //         )
+    //         ->whereIn('gzlicenses.status', [1])
+    //         ->orderBy($sortField, $sortOrder)
+    //         // filter by vehicle_id if provided
+    //         ->when($vehicleId, function ($query) use ($vehicleId) {
+    //             return $query->where('gzlicenses.vehicle_id', $vehicleId);
+    //         })
+    //         // filter by license_type if provided
+    //         ->when($request->input('license_type'), function ($query) use ($request) {
+    //             return $query->where('gzlicenses.license_type', $request->input('license_type'));
+    //         })
+    //         // search by vehicle name
+    //         ->when($request->filled('vehicle_name'), function ($query) use ($request) {
+    //             return $query->where('vehicles.vehicle_type', 'LIKE', '%' . trim($request->vehicle_name) . '%');
+    //         })
+    //         // search by driver name
+    //         ->when($request->filled('driver_name'), function ($query) use ($request) {
+    //             return $query->where('drivers.name', 'LIKE', '%' . trim($request->driver_name) . '%');
+    //         })
+    //         // search by plate number
+    //         ->when($request->filled('plate_no'), function ($query) use ($request) {
+    //             return $query->where('vehicles.vehicle_platte_no', 'LIKE', '%' . trim($request->plate_no) . '%');
+    //         });
+
+    //     $perPage = $request->input('per_page') ?? self::PER_PAGE;
+    //     $records = $query->paginate((int) $perPage);
+
+    //     return CardResource::collection($records);
+    // }
     public function index(Request $request)
     {
-
-    
         $sortFieldInput = $request->input('sort_field', self::DEFAULT_SORT_FIELD);
-        $sortField = in_array($sortFieldInput, $this->sortFields) ? $sortFieldInput : self::DEFAULT_SORT_FIELD;
+
+        $sortField = in_array($sortFieldInput, $this->sortFields)
+            ? $sortFieldInput
+            : self::DEFAULT_SORT_FIELD;
+
         $sortOrder = $request->input('sort_order', self::DEFAULT_SORT_ORDER);
-        $vehicleId = $request->has('vehicle_id') ? decode_id($request->vehicle_id) : null;
+
+        $vehicleId = $request->has('vehicle_id')
+            ? decode_id($request->vehicle_id)
+            : null;
 
         $query = DB::table('gzlicenses')
             ->join('vehicles', 'vehicles.id', '=', 'gzlicenses.vehicle_id')
             ->leftJoin('vehicle_saves', 'vehicle_saves.id', '=', 'vehicles.vehicle_type')
             ->join('drivers', 'drivers.id', '=', 'gzlicenses.driver_id')
-            ->join('users', 'users.id', '=', 'gzlicenses.created_by')
-            ->join('departments', 'departments.id', '=', 'gzlicenses.created_department')
-            ->join('provinces', 'provinces.id', '=', 'gzlicenses.created_location')
+
             ->select(
                 'gzlicenses.*',
+
+                // Vehicle
                 'vehicles.vehicle_type',
-                'vehicle_saves.name as vehicle_type_name',
                 'vehicles.vehicle_color',
                 'vehicles.vehicle_source',
                 'vehicles.vehicle_platte_no',
-                'vehicles.front_photo as front_photo',
+                'vehicles.front_photo',
+
+                // Vehicle type
+                'vehicle_saves.name as vehicle_type_name',
+
+                // Driver
                 'drivers.name as driver_name',
                 'drivers.photo as driver_photo',
-                'users.name as created_by',
-                'provinces.name_dr as createdLocation',
-                'departments.name_da as createdDepartment',
+
+                // Created by name comes directly from vehicles
+                'vehicles.created_by_name'
             )
+
             ->whereIn('gzlicenses.status', [1])
+
             ->orderBy($sortField, $sortOrder)
-            // filter by vehicle_id if provided
+
             ->when($vehicleId, function ($query) use ($vehicleId) {
                 return $query->where('gzlicenses.vehicle_id', $vehicleId);
             })
-            // filter by license_type if provided
+
             ->when($request->input('license_type'), function ($query) use ($request) {
-                return $query->where('gzlicenses.license_type', $request->input('license_type'));
+                return $query->where(
+                    'gzlicenses.license_type',
+                    $request->input('license_type')
+                );
             })
-            // search by vehicle name
+
             ->when($request->filled('vehicle_name'), function ($query) use ($request) {
-                return $query->where('vehicles.vehicle_type', 'LIKE', '%' . trim($request->vehicle_name) . '%');
+                return $query->where(
+                    'vehicles.vehicle_type',
+                    'LIKE',
+                    '%' . trim($request->vehicle_name) . '%'
+                );
             })
-            // search by driver name
+
             ->when($request->filled('driver_name'), function ($query) use ($request) {
-                return $query->where('drivers.name', 'LIKE', '%' . trim($request->driver_name) . '%');
+                return $query->where(
+                    'drivers.name',
+                    'LIKE',
+                    '%' . trim($request->driver_name) . '%'
+                );
             })
-            // search by plate number
+
             ->when($request->filled('plate_no'), function ($query) use ($request) {
-                return $query->where('vehicles.vehicle_platte_no', 'LIKE', '%' . trim($request->plate_no) . '%');
+                return $query->where(
+                    'vehicles.vehicle_platte_no',
+                    'LIKE',
+                    '%' . trim($request->plate_no) . '%'
+                );
             });
 
         $perPage = $request->input('per_page') ?? self::PER_PAGE;
+
         $records = $query->paginate((int) $perPage);
 
         return CardResource::collection($records);
     }
-
     protected function changeStatusOfLicense(Request $request)
     {
         $request->validate([
@@ -159,6 +243,7 @@ class CardController extends Controller
 
     public function view(Request $request)
     {
+        dd("Reached");
         $sortFieldInput = $request->input('sort_field', self::DEFAULT_SORT_FIELD);
         $sortField = in_array($sortFieldInput, $this->sortFields) ? $sortFieldInput : self::DEFAULT_SORT_FIELD;
         $sortOrder = $request->input('sort_order', self::DEFAULT_SORT_ORDER);

@@ -106,6 +106,7 @@ class VehicalController extends Controller
 
     protected function view($id)
     {
+       
         $vehical = Vehical::join('users', 'users.id', '=', 'vehicals.created_by')
             ->join('provinces', 'provinces.id', '=', 'vehicals.created_location')
             ->join('departments', 'departments.id', '=', 'vehicals.created_department')

@@ -18,10 +18,10 @@ class VehicleSaveResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'created_by' => $this->created_by,
-            'ownerName' => $this->when(isset($this->ownerName), $this->ownerName),
+            'ownerName' => $this->created_by_name, // $this->when(isset($this->ownerName), $this->ownerName),
             'created_at' => $this->created_at ? $this->created_at->format('Y-m-d H:i') : null,
-            'createdDepartment' => $this->createdDepartment,
-            'createdLocation' => $this->createdLocation,
+            // 'createdDepartment' => $this->createdDepartment,
+            // 'createdLocation' => $this->createdLocation,
         ];
     }
 }

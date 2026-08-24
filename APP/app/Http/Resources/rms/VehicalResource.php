@@ -27,10 +27,10 @@ class VehicalResource extends JsonResource
             'status' => $this->status,
             'company_id' => $this->company_id,
             'created_by' => $this->created_by,
-            'createdDepartment' => $this->createdDepartment,
-            'createdLocation' => $this->createdLocation,
+            // 'createdDepartment' => $this->createdDepartment,
+            // 'createdLocation' => $this->createdLocation,
             'attachments' => $this->attachment ? asset($this->attachment) : null, // only if "attachment" exists in model
-            'ownerName' => $this->when(isset($this->ownerName), $this->ownerName),
+            'ownerName' => $this->create_by_name, //$this->when(isset($this->ownerName), $this->ownerName),
             'created_at' => dateCheck($this->created_at, true),
         ];
     }

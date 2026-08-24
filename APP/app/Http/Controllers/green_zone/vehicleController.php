@@ -45,17 +45,17 @@ class vehicleController extends Controller
 
     protected function index(Request $request)
     {
-        dd("reached");
+
         $sortFieldInput = $request->input('sort_field', self::DEFAULT_SORT_FIELD);
         $sortField = in_array($sortFieldInput, $this->sortFields) ? $sortFieldInput : self::DEFAULT_SORT_FIELD;
         $sortOrder = $request->input('sort_order', self::DEFAULT_SORT_ORDER);
 
         $query = Vehicle::with('type')
-            ->leftJoin('users', 'users.id', '=', 'vehicles.created_by')
+
             ->leftJoin('drivers', 'drivers.vehicle_id', '=', 'vehicles.id')
             ->select(
                 'vehicles.*',
-                'users.name as ownerName',
+                'vehicles.created_by_name as ownerName',
                 'drivers.name as driverName'
             )
             ->orderBy($sortField, $sortOrder)
@@ -266,19 +266,21 @@ class vehicleController extends Controller
 
     protected function view($id = 0)
     {
+
         if (!is_numeric($id)) {
             $id = decode_id($id);
         }
 
         // Change ->get() to ->first() to get a single model
-        $record = vehicle::join('users', 'users.id', '=', 'vehicles.created_by')
-            ->join('provinces', 'provinces.id', '=', 'vehicles.created_location')
-            ->join('departments', 'departments.id', '=', 'vehicles.created_department')
-            ->select(
+        $record = vehicle::
+            // join('users', 'users.id', '=', 'vehicles.created_by')
+            //     ->join('provinces', 'provinces.id', '=', 'vehicles.created_location')
+            //     ->join('departments', 'departments.id', '=', 'vehicles.created_department')
+            select(
                 'vehicles.*',
-                'users.name as ownerName',
-                'provinces.name_dr as createdLocation',
-                'departments.name_da as createdDepartment',
+                // 'users.name as ownerName',
+                // 'provinces.name_dr as createdLocation',
+                // 'departments.name_da as createdDepartment',
             )
             ->where('vehicles.id', $id)
             ->first();

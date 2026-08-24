@@ -11,6 +11,8 @@ const store = async (formData: any) => {
 }
 
 const view = async (id: number) => {
+ 
+
   const response = await axios.post(`/api/card/view/${id}`)
   return response.data
 }

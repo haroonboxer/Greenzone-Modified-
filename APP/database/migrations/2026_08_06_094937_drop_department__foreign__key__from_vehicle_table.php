@@ -12,22 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         //Vihecle dropping Foreign key
-        // Schema::table('vehicles', function (Blueprint $table) {
-
-        //     $table->dropForeign(['created_department']);
-        //     $table->dropForeign(['created_by']);
-        //     $table->dropForeign(['created_location']);
-
-        //     $table->string('created_by')->change();
-        //     $table->string('created_department')->change();
-
-
-        //     $table->string("created_by_name");
-        // });
+     
         Schema::table('vehicles', function (Blueprint $table) {
-            $table->dropForeign('vehicles_created_department_foreign');
-            $table->dropForeign('vehicles_created_by_foreign');
-            $table->dropForeign('vehicles_created_location_foreign');
+            $table->dropForeign('created_department');
+            $table->dropForeign('created_by');
+            $table->dropForeign('created_location');
         });
 
         Schema::table('vehicles', function (Blueprint $table) {

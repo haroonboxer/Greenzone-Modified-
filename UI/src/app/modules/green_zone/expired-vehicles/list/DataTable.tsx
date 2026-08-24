@@ -87,6 +87,7 @@ const DataTable: React.FC<any> = ({headers, columns, onRecordsChange}) => {
   useEffect(() => {
     setLoading(true)
     dispatch(getExpiredVehicles(params)).then((res) => {
+     
       if (res.meta.requestStatus === 'fulfilled') {
         setLoading(false)
       } else if (res.meta.requestStatus === 'rejected') {

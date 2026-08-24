@@ -31,21 +31,32 @@ class VehicleSaveController extends Controller
 
     public function index(Request $request)
     {
+      
 
         $sortFieldInput = $request->input('sort_field', self::DEFAULT_SORT_FIELD);
         $sortField = in_array($sortFieldInput, $this->sortFields) ? $sortFieldInput : self::DEFAULT_SORT_FIELD;
         $sortOrder = $request->input('sort_order', self::DEFAULT_SORT_ORDER);
 
-        $query = VehicleSave::join('users', 'users.id', '=', 'vehicle_saves.created_by')
-            ->select(
-                'vehicle_saves.*',
-                'users.name as ownerName'
-            )
+        // $query = VehicleSave::join('users', 'users.id', '=', 'vehicle_saves.created_by')
+        //     ->select(
+        //         'vehicle_saves.*',
+        //         'users.name as ownerName'
+        //     )
+        //     ->orderBy($sortField, $sortOrder)
+        //     ->when($request->filled('search'), function ($query) use ($request) {
+        //         return $query->where('vehicle_saves.name', 'LIKE', '%' . trim($request->search) . '%');
+        //     });
+        $query = VehicleSave::select(
+            'vehicle_saves.*'
+        )
             ->orderBy($sortField, $sortOrder)
             ->when($request->filled('search'), function ($query) use ($request) {
-                return $query->where('vehicle_saves.name', 'LIKE', '%' . trim($request->search) . '%');
+                return $query->where(
+                    'vehicle_saves.name',
+                    'LIKE',
+                    '%' . trim($request->search) . '%'
+                );
             });
-
         $perPage = (int) $request->input('per_page', self::PER_PAGE);
 
         $records = $query->paginate($perPage);

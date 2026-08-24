@@ -73,11 +73,12 @@ class driverController extends Controller
         $fatherName = $request->input('f_name') ?? '';
         $phone = $request->input('phone') ?? '';
 
-        $query = driver::join('users', 'users.id', 'drivers.created_by')
-            ->select(
+        $query = driver::
+            //join('users', 'users.id', 'drivers.created_by')
+            select(
                 'drivers.*',
                 'drivers.photo',
-                'users.name as ownerName'
+                'drivers.created_by_name as ownerName'
             )
             ->orderBy($sortField, $sortOrder)
             ->when($vehicleId, fn($q) => $q->where('drivers.vehicle_id', $vehicleId))
@@ -108,7 +109,7 @@ class driverController extends Controller
 
     protected function store(driverRequest $request)
     {
-      
+
 
 
         DB::beginTransaction();

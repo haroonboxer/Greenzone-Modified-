@@ -59,7 +59,7 @@ const AuthProvider: FC<WithChildren> = ({children}) => {
   }
 
   const hasPermission = (permission: string) => {
-    console.log(permission);
+ 
     return currentUser?.permissions.some((p: string) => p === `${permission}`)
   }
 
