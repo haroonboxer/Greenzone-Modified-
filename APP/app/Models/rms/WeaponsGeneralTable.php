@@ -37,6 +37,7 @@ class WeaponsGeneralTable extends Model
         'status',
         'company_id',
         'created_by',
+        'created_by_name',
         'created_department',
         'created_location',
     ];

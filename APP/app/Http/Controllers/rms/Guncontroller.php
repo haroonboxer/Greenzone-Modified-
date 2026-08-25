@@ -71,8 +71,9 @@ class GunController extends Controller
             $company_id = $request->company_id ? (int) ($request->company_id) : null;
             $weapon_id = $request->weapon_id ? (int)($request->weapon_id) : null;
             $created_by = userid();
+            $created_by_name = userName();
             $created_department = departmentId();
-            $created_location = locationId();
+            $created_location = ProvinceId();
 
             $created_guns = [];
 
@@ -88,6 +89,7 @@ class GunController extends Controller
                     'created_by' => $created_by,
                     'created_department' => $created_department,
                     'created_location' => $created_location,
+                    'created_by_name' =>$created_by_name,
                 ]);
 
                 $created_guns[] = $record->id;

@@ -93,8 +93,9 @@ class PrintedCardController extends Controller
         $record->expire_date = $request->expire_date;
         $record->company_id = (int) $company_id;
         $record->created_by = userid();
+        $record->created_by_name = userName();
         $record->created_department = departmentId();
-        $record->created_location = locationId();
+        $record->created_location = ProvinceId();
         $record->save();
 
         $parent_id = $record->id;

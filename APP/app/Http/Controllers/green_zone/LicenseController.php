@@ -92,8 +92,9 @@ class LicenseController extends Controller
             $record->vehicle_id         = $vehicle_id;
             $record->driver_id          = $driver ? $driver->id : null;
             $record->created_by         = userid();
+            $record->created_by_name    = userName();
             $record->created_department = departmentId();
-            $record->created_location   = locationId();
+            $record->created_location   = ProvinceId();
             $record->status             = 0;
             $record->printed            = 0;
 

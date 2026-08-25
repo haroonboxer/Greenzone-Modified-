@@ -46,6 +46,9 @@ class vehicleController extends Controller
     protected function index(Request $request)
     {
 
+        $user = Auth::guard('sso')->user();
+
+      
         $sortFieldInput = $request->input('sort_field', self::DEFAULT_SORT_FIELD);
         $sortField = in_array($sortFieldInput, $this->sortFields) ? $sortFieldInput : self::DEFAULT_SORT_FIELD;
         $sortOrder = $request->input('sort_order', self::DEFAULT_SORT_ORDER);
@@ -222,8 +225,9 @@ class vehicleController extends Controller
             $vehicle->back_photo = $backPhotoPath;
             $vehicle->plate_photo = $platePhotoPath;
             $vehicle->created_by = userid();
+            $vehicle->created_by_name = userName();
             $vehicle->created_department = departmentId();
-            $vehicle->created_location = locationId();
+            $vehicle->created_location = ProvinceId();
             $vehicle->created_at = now();
             $vehicle->save();
 

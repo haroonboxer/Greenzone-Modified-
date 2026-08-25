@@ -99,8 +99,9 @@ class CompanyController extends Controller
             $company->tin = $request->tin;
             $company->icon = $iconPath;
             $company->created_by = userid();
+            $company->created_by_name = userName();
             $company->created_department = departmentId();
-            $company->created_location = locationId();
+            $company->created_location = ProvinceId();
             $company->created_at = now();
             $company->save();
             $parent_id = $company->id;

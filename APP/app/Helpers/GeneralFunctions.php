@@ -25,16 +25,40 @@ use Carbon\Carbon;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Hekmatinasser\Jalali\Jalali;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 
 function userid()
 {
     $user = Auth::guard('sso')->user();
-    dd($user);
-    $userId  = $user->id;
-    return  $userId;
-}
 
+    $userId  = $user->id;
+    return  $user;
+}
+function userName()
+{
+    $user = Auth::guard('sso')->user();
+    return $user->LName;
+}
+function departmentId()
+{
+    $user = Auth::guard('sso')->user();
+
+    $departmentId = $user->departmentId;
+    return $departmentId;
+    // return Auth::user()->department_id;
+}
+function departmentName()
+{
+    $user = Auth::guard('sso')->user();
+    $departmentName = $user->departmentName;
+    return $departmentName;
+}
+function ProvinceId()
+{
+    $user = Auth::guard("sso")->user();
+    return $user->ProvinceId;
+}
 function convertToEnglishDigits($string)
 {
     $persian = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
@@ -89,6 +113,10 @@ function uid()
 
 function dep_id()
 {
+    $user = Auth::guard('sso')->user();
+
+    $userId  = $user->id;
+    return  $userId;
     return auth()->user()->department_id;
 }
 
@@ -209,17 +237,18 @@ function directorateId()
 {
     return Auth::user()->directorate_id;
 }
-function departmentId()
-{
-    return Auth::user()->department_id;
-}
+
+
 function subDepartmentId()
 {
+
     return Auth::user()->sub_department_id;
 }
-function locationId()
+
+function ProvinceName()
 {
-    return Auth::user()->location_id;
+    $user = Auth::guard("sso")->user();
+    return $user->ProvinceName;
 }
 function get_religions()
 {

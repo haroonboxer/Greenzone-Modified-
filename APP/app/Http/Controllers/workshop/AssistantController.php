@@ -116,8 +116,9 @@ class AssistantController extends Controller
                 'current_village' => $request->current_village,
                 'company_id' => $company_id,
                 'created_by' => userid(),
+                'created_by'=>userName(),
                 'created_department' => departmentId(),
-                'created_location' => locationId(),
+                'created_location' => ProvinceId(),
             ]);
 
             $parent_id = $record->id;

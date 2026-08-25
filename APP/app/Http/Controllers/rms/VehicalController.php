@@ -75,8 +75,9 @@ class VehicalController extends Controller
         $vehical->license_end_date = $request->license_end_date;
         $vehical->company_id = (int) $company_id;
         $vehical->created_by = userid();
+        $vehical->created_by_name = userName();
         $vehical->created_department = departmentId();
-        $vehical->created_location = locationId();
+        $vehical->created_location = ProvinceId();
         $vehical->save();
 
         $vehical_id = $vehical->id;
@@ -106,7 +107,7 @@ class VehicalController extends Controller
 
     protected function view($id)
     {
-       
+
         $vehical = Vehical::join('users', 'users.id', '=', 'vehicals.created_by')
             ->join('provinces', 'provinces.id', '=', 'vehicals.created_location')
             ->join('departments', 'departments.id', '=', 'vehicals.created_department')

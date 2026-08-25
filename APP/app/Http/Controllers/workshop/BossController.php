@@ -95,8 +95,9 @@ class BossController extends Controller
             $record->company_id = (int) decode_id($request->company_id);
             $record->status = $request->status ?? 1;
             $record->created_by = userid();
+            $record->created_by_name =userName();
             $record->created_department = departmentId();
-            $record->created_location = locationId();
+            $record->created_location = ProvinceId();
             $record->save();
 
             $parent_id = $record->id;

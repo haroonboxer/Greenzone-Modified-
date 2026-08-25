@@ -92,8 +92,9 @@ class WeaponsController extends Controller
                 'slip_date' => $request->slip_date,
                 'company_id' => $company_id,
                 'created_by' => userid(),
+                'created_by_name' => userName(),
                 'created_department' => departmentId(),
-                'created_location' => locationId(),
+                'created_location' => ProvinceId(),
             ]);
 
             $parent_id = $record->id;

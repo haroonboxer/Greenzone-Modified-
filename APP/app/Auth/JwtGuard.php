@@ -33,55 +33,82 @@ class JwtGuard implements Guard
             */
 
             $decoded = JWT::decode(
-
                 $token,
-
                 new Key(
                     env('JWT_SECRET'),
                     "HS256"
                 )
-
             );
 
-            /*
-            |--------------------------------------------------------------------------
-            | IMPORTANT
-            |--------------------------------------------------------------------------
-            |
-            | Right now the JWT only contains:
-            |
-            | user_id
-            | user_name
-            |
-            | Roles & Permissions will be loaded
-            | from SSO later.
-            |
-            */
+            // Get UserInfo from token
+            $userInfo = $decoded->UserInfo ?? null;
+
+            // UserInfo is JSON string in your token
+            if (is_string($userInfo)) {
+                $userInfo = json_decode($userInfo);
+            }
 
 
+            // $this->user = new SSOUser([
 
-            /*
-            |--------------------------------------------------------------------------
-            | Create User
-            |--------------------------------------------------------------------------
-            */
+            //     // From top-level token
+            //     "id" => $decoded->id ?? $userInfo->Id ?? null,
 
+            //     "name" => $decoded->name ?? $userInfo->Name ?? null,
+
+            //     "email" => $decoded->email ?? $userInfo->email ?? null,
+
+            //     "image" => $decoded->image ?? $userInfo->Image ?? null,
+
+            //     "roles" => $decoded->role ?? [],
+
+            //     "claims" => $decoded->permissions ?? [],
+
+
+            //     // From UserInfo
+            //     "departmentId" => $decoded->departmentId ?? $userInfo->DepartmentId ?? null,
+
+            //     "departmentName" => $decoded->departmentName ?? $userInfo->DepartmentName ?? null,
+
+            //     "ProvinceId" => $decoded->provinceId ?? $userInfo->ProvinceId ?? null,
+
+            //     "ProvinceName" => $decoded->provinceName ?? $userInfo->provinceName ?? null,
+
+            //     "LName" => $decoded->UserNameInLocalLang ?? null,
+            // ]);
             $this->user = new SSOUser([
 
-                "id" => $decoded->id ?? null,
+                "id" => $decoded->id ?? $userInfo->Id ?? null,
 
-                "name" => $decoded->name ?? null,
+                "name" => $decoded->name ?? $userInfo->Name ?? null,
 
-                "email" => $decoded->email ?? null,
+                "email" => $decoded->email ?? $userInfo->email ?? null,
 
-                "image" => $decoded->image ?? null,
+                "image" => $decoded->image ?? $userInfo->Image ?? null,
 
                 "roles" => $decoded->role ?? [],
 
-                "claims" => $decoded->permissions ?? []
+                "claims" => $decoded->permissions ?? [],
 
+                "departmentId" =>
+                !empty($decoded->departmentId)
+                    ? $decoded->departmentId
+                    : ($userInfo->DepartmentId ?? null),
+
+                "departmentName" =>
+                !empty($decoded->departmentName)
+                    ? $decoded->departmentName
+                    : ($userInfo->DepartmentName ?? null),
+
+                "ProvinceId" =>
+                $decoded->provinceId ?? $userInfo->ProvinceId ?? null,
+
+                "ProvinceName" =>
+                $decoded->provinceName ?? $userInfo->provinceName ?? null,
+
+                "LName" =>
+                $userInfo->UserNameInLocalLang ?? null,
             ]);
-
             return $this->user;
         } catch (\Exception $e) {
 

@@ -31,7 +31,7 @@ class VehicleSaveController extends Controller
 
     public function index(Request $request)
     {
-      
+
 
         $sortFieldInput = $request->input('sort_field', self::DEFAULT_SORT_FIELD);
         $sortField = in_array($sortFieldInput, $this->sortFields) ? $sortFieldInput : self::DEFAULT_SORT_FIELD;
@@ -66,10 +66,12 @@ class VehicleSaveController extends Controller
 
     public function store(Request $request)
     {
+        $user = Auth::guard('sso')->user();
+        return response([
 
+            'user' => $user,
 
-
-
+        ]);
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
@@ -78,9 +80,9 @@ class VehicleSaveController extends Controller
         try {
             $vehicleSave = new VehicleSave();
             $vehicleSave->name = $request->name;
-            $vehicleSave->created_by = 1; //userid();
-            $vehicleSave->created_department = 1; //departmentId();
-            $vehicleSave->created_location = 1; //locationId();
+            $vehicleSave->created_by =  userid();
+            $vehicleSave->created_department = departmentId();
+            $vehicleSave->created_location = ProvinceId();
             $vehicleSave->save();
 
             DB::commit();

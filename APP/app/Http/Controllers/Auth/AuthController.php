@@ -150,9 +150,7 @@ class AuthController extends Controller
 
         $UserInfo = $decoded->user_info ?? null;
 
-        $UserInfo = $decoded->UserInfo
-            ?? $decoded->user_info
-            ?? null;
+        $UserInfo = $decoded->UserInfo ?? $decoded->user_info ?? null;
 
 
         if (is_string($UserInfo)) {
@@ -161,13 +159,14 @@ class AuthController extends Controller
             $userinfo = $UserInfo;
         }
 
-    
+
         $payload = [
 
             // UserModel
             "id" =>             $userinfo->Id ?? $userinfo['Id'] ?? "",
 
             "name" =>           $userinfo->Name ?? $userinfo['Name'] ?? "",
+            "LName" => $userinfo['UserNameInLocalLang'] ?? "",
 
             "username" =>       $userinfo->UserName ?? $userinfo["UserName"],
 
@@ -177,9 +176,15 @@ class AuthController extends Controller
 
             "signature" =>      $userinfo->signature ?? $userinfo['signature'] ?? "",
 
+            "departmentId" => $userinfo->DepartmentId ?? $userinfo['DepartmentId'],
+
             "departmentName" => $userinfo->departmentName ?? $userinfo['departmentName'] ?? "",
 
+            "provinceId" => $userinfo->ProvinceId ?? $userinfo['ProvinceId'],
+
             "provinceName" =>   $userinfo->provinceName ?? $userinfo['provinceName'] ?? "",
+
+            "LName" => $userinfo['UserNameInLocalLang'] ?? "",
 
             // React UserModel expects these names
             "role" => $roles,

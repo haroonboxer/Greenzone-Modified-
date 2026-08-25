@@ -7,7 +7,7 @@ use App\Http\Requests\rms\CompanyRequest;
 use App\Http\Resources\rms\CompanyResource;
 use App\Models\Auth\Attachments;
 use App\Models\rms\Company;
-
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -91,8 +91,9 @@ class CompanyController extends Controller
             $company->amount_of_money = $request->amount_of_money;
             $company->icon = $iconPath;
             $company->created_by = userid();
+            $company->created_by_name = userName();
             $company->created_department = departmentId();
-            $company->created_location = locationId();
+            $company->created_location = ProvinceId();
             $company->created_at = now();
             $company->save();
             $parent_id = $company->id;

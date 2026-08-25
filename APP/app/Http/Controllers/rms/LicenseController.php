@@ -109,9 +109,9 @@ class LicenseController extends Controller
         $record->fee = $validated['fee'];
         $record->company_id = (int) $company_id;
         $record->created_by = userid();
-        $record->created_by = userid();
+        $record->created_by_name =userName();
         $record->created_department = departmentId();
-        $record->created_location = locationId();
+        $record->created_location = ProvinceId();
         $record->status = 1;
         $record->save();
 

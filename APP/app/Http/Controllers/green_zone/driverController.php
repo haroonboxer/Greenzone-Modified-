@@ -64,6 +64,7 @@ class driverController extends Controller
 
     protected function index(Request $request)
     {
+
         $sortFieldInput = $request->input('sort_field', self::DEFAULT_SORT_FIELD);
         $sortField = in_array($sortFieldInput, $this->sortFields) ? $sortFieldInput : self::DEFAULT_SORT_FIELD;
         $sortOrder = $request->input('sort_order', self::DEFAULT_SORT_ORDER);
@@ -147,7 +148,8 @@ class driverController extends Controller
             $driver->vehicle_id         = (int) decode_id($request->vehicle_id);
             $driver->created_by         = userid();
             $driver->created_department = departmentId();
-            $driver->created_location   = locationId();
+            $driver->created_location   = ProvinceId();
+            $driver->creaetd_by_name    = userName();
 
             $driver->save();
 

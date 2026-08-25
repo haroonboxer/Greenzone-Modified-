@@ -16,7 +16,11 @@ class SSOUser implements Authenticatable, Authorizable
     public $roles = [];
     public $claims = [];
     public $image;
-
+    public $departmentId;
+    public $departmentName;
+    public $ProvinceId;
+    public $ProvinceName;
+    public $LName;
     public function __construct(array $attributes = [])
     {
         $this->id = $attributes['id'] ?? null;
@@ -25,6 +29,11 @@ class SSOUser implements Authenticatable, Authorizable
         $this->roles = $attributes['roles'] ?? [];
         $this->claims = $attributes['claims'] ?? [];
         $this->image = $attributes['image'] ?? null;
+        $this->departmentId = $attributes['departmentId'] ?? null;
+        $this->departmentName = $attributes['departmentName'] ?? null;
+        $this->ProvinceId = $attributes['ProvinceId'] ?? null;
+        $this->ProvinceName = $attributes['ProvinceName'] ?? null;
+        $this->LName = $attributes["LName"] ?? null;
     }
 
     public function getAuthIdentifierName()

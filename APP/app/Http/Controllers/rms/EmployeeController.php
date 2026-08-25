@@ -104,8 +104,9 @@ class EmployeeController extends Controller
         $record->current_village = $request->current_village;
         $record->company_id = (int) $company_id;
         $record->created_by = userid();
+        $record->created_by_name=userName();
         $record->created_department = departmentId();
-        $record->created_location = locationId();
+        $record->created_location = ProvinceId();
         $record->save();
 
         $parent_id = $record->id;
