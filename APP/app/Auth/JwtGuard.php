@@ -12,13 +12,11 @@ class JwtGuard implements Guard
 
     public function user()
     {
-
         if ($this->user) {
             return $this->user;
         }
 
         $token = request()->bearerToken();
-
 
         if (!$token) {
             return null;
@@ -26,93 +24,56 @@ class JwtGuard implements Guard
 
         try {
 
-            /*
-            |--------------------------------------------------------------------------
-            | Decode Laravel JWT
-            |--------------------------------------------------------------------------
-            */
-
             $decoded = JWT::decode(
                 $token,
                 new Key(
                     env('JWT_SECRET'),
-                    "HS256"
+                    'HS256'
                 )
             );
 
-            // Get UserInfo from token
-            $userInfo = $decoded->UserInfo ?? null;
+            // Convert decoded JWT object to array
+            $data = json_decode(
+                json_encode($decoded),
+                true
+            );
 
-            // UserInfo is JSON string in your token
-            if (is_string($userInfo)) {
-                $userInfo = json_decode($userInfo);
-            }
+            // Log exactly what Laravel is reading
+            logger()->info('JWT DATA', [
+                'data' => $decoded
+            ]);
 
-
-            // $this->user = new SSOUser([
-
-            //     // From top-level token
-            //     "id" => $decoded->id ?? $userInfo->Id ?? null,
-
-            //     "name" => $decoded->name ?? $userInfo->Name ?? null,
-
-            //     "email" => $decoded->email ?? $userInfo->email ?? null,
-
-            //     "image" => $decoded->image ?? $userInfo->Image ?? null,
-
-            //     "roles" => $decoded->role ?? [],
-
-            //     "claims" => $decoded->permissions ?? [],
-
-
-            //     // From UserInfo
-            //     "departmentId" => $decoded->departmentId ?? $userInfo->DepartmentId ?? null,
-
-            //     "departmentName" => $decoded->departmentName ?? $userInfo->DepartmentName ?? null,
-
-            //     "ProvinceId" => $decoded->provinceId ?? $userInfo->ProvinceId ?? null,
-
-            //     "ProvinceName" => $decoded->provinceName ?? $userInfo->provinceName ?? null,
-
-            //     "LName" => $decoded->UserNameInLocalLang ?? null,
-            // ]);
             $this->user = new SSOUser([
 
-                "id" => $decoded->id ?? $userInfo->Id ?? null,
+                'id' => $data['id'] ?? null,
 
-                "name" => $decoded->name ?? $userInfo->Name ?? null,
+                'name' => $data['name'] ?? null,
 
-                "email" => $decoded->email ?? $userInfo->email ?? null,
+                'email' => $data['email'] ?? null,
 
-                "image" => $decoded->image ?? $userInfo->Image ?? null,
+                'image' => $data['image'] ?? null,
 
-                "roles" => $decoded->role ?? [],
+                'roles' => $data['role'] ?? [],
 
-                "claims" => $decoded->permissions ?? [],
+                'claims' => $data['permissions'] ?? [],
 
-                "departmentId" =>
-                !empty($decoded->departmentId)
-                    ? $decoded->departmentId
-                    : ($userInfo->DepartmentId ?? null),
+                'departmentId' => $data['departmentId'] ?? null,
 
-                "departmentName" =>
-                !empty($decoded->departmentName)
-                    ? $decoded->departmentName
-                    : ($userInfo->DepartmentName ?? null),
+                'departmentName' => $data['departmentName'] ?? '',
 
-                "ProvinceId" =>
-                $decoded->provinceId ?? $userInfo->ProvinceId ?? null,
+                'ProvinceId' => $data['provinceId'] ?? null,
 
-                "ProvinceName" =>
-                $decoded->provinceName ?? $userInfo->provinceName ?? null,
+                'ProvinceName' => $data['provinceName'] ?? '',
 
-                "LName" =>
-                $userInfo->UserNameInLocalLang ?? null,
+                'LName' => $data['LName'] ?? null,
             ]);
+
             return $this->user;
         } catch (\Exception $e) {
 
-            logger()->error($e->getMessage());
+            logger()->error('JWT ERROR', [
+                'message' => $e->getMessage()
+            ]);
 
             return null;
         }

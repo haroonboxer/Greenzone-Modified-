@@ -166,7 +166,7 @@ class AuthController extends Controller
             "id" =>             $userinfo->Id ?? $userinfo['Id'] ?? "",
 
             "name" =>           $userinfo->Name ?? $userinfo['Name'] ?? "",
-            "LName" => $userinfo['UserNameInLocalLang'] ?? "",
+            "LName" =>          $userinfo['UserNameInLocalLang'] ?? "",
 
             "username" =>       $userinfo->UserName ?? $userinfo["UserName"],
 
@@ -178,7 +178,7 @@ class AuthController extends Controller
 
             "departmentId" => $userinfo->DepartmentId ?? $userinfo['DepartmentId'],
 
-            "departmentName" => $userinfo->departmentName ?? $userinfo['departmentName'] ?? "",
+            "departmentName" => $userinfo->DepartmentName ?? $userinfo['DepartmentName'] ?? "",
 
             "provinceId" => $userinfo->ProvinceId ?? $userinfo['ProvinceId'],
 

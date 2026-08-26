@@ -66,12 +66,7 @@ class VehicleSaveController extends Controller
 
     public function store(Request $request)
     {
-        $user = Auth::guard('sso')->user();
-        return response([
 
-            'user' => $user,
-
-        ]);
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
@@ -81,6 +76,7 @@ class VehicleSaveController extends Controller
             $vehicleSave = new VehicleSave();
             $vehicleSave->name = $request->name;
             $vehicleSave->created_by =  userid();
+            $vehicleSave->created_by_name = userName();
             $vehicleSave->created_department = departmentId();
             $vehicleSave->created_location = ProvinceId();
             $vehicleSave->save();

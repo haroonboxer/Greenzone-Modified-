@@ -1,11 +1,27 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import VehicleComponents from './tabsComponents/vehicle/VehicleComponents'
 import DriverList from '../driver/list/DriverList'
 import LicenseList from '../License/list/LicenseList'
+import axios from "axios";
+const loadUserProvince = async () => {
+    try {
+        const response = await axios.get(
+            "https://localhost:7161/api/HandlerAPIRequest/LoadUserProvince"
+        );
 
+        console.log("Province response:", response.data);
 
+        return response.data;
+    } catch (error) {
+        console.error("Failed to load user province:", error);
+    }
+};
 const GreenZoneView = () => {
+  
+useEffect(() => {
+    loadUserProvince();
+}, []);
   const { t } = useTranslation()
 
   const tabKeys = [

@@ -33,7 +33,7 @@ function userid()
     $user = Auth::guard('sso')->user();
 
     $userId  = $user->id;
-    return  $user;
+    return  $userId;
 }
 function userName()
 {
