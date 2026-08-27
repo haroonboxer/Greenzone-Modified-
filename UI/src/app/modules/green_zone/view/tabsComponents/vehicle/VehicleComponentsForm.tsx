@@ -11,7 +11,7 @@ const VehicleComponentsForm = ({t, vehicleData, to_jalali, RecordOwnerView}: any
       </div>
       <div className='card-body'>
         <RecordOwnerView
-          title={t('global.recordOwner')}
+          title={t('global.recordOwne')}
           icon={'fa fa-user-plus'}
           ownerName={vehicleData.ownerName}
           departmentName={vehicleData.createdDepartment}

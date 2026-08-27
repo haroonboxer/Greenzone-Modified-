@@ -115,7 +115,9 @@ export const viewVehicle = createAsyncThunk(
   'api/vehicle/view',
   async ({id, formData}: any, thunkAPI) => {
     try {
-      return await VehicleService.viewVehicle(id, formData)
+      const data = await VehicleService.viewVehicle(id, formData)
+     
+      return data;
     } catch (error: any) {
       const message =
         (error.response && error.response.data && error.response.data.message) ||

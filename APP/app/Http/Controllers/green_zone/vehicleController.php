@@ -48,7 +48,7 @@ class vehicleController extends Controller
 
         $user = Auth::guard('sso')->user();
 
-      
+
         $sortFieldInput = $request->input('sort_field', self::DEFAULT_SORT_FIELD);
         $sortField = in_array($sortFieldInput, $this->sortFields) ? $sortFieldInput : self::DEFAULT_SORT_FIELD;
         $sortOrder = $request->input('sort_order', self::DEFAULT_SORT_ORDER);
@@ -282,9 +282,9 @@ class vehicleController extends Controller
             //     ->join('departments', 'departments.id', '=', 'vehicles.created_department')
             select(
                 'vehicles.*',
-                // 'users.name as ownerName',
-                // 'provinces.name_dr as createdLocation',
-                // 'departments.name_da as createdDepartment',
+                'vehicles.created_by_name as ownerName',
+                'vehicles.created_location as createdLocation',
+                'vehicles.created_department as createdDepartment',
             )
             ->where('vehicles.id', $id)
             ->first();

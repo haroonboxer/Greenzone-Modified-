@@ -57,7 +57,7 @@ class VehicalController extends Controller
 
     protected function store(Request $request)
     {
-         
+
         $company_id = $request->company_id ? decode_id($request->company_id) : null;
 
         if (!$company_id) {
@@ -107,7 +107,7 @@ class VehicalController extends Controller
 
     protected function view($id)
     {
-
+      
         $vehical = Vehical::join('users', 'users.id', '=', 'vehicals.created_by')
             ->join('provinces', 'provinces.id', '=', 'vehicals.created_location')
             ->join('departments', 'departments.id', '=', 'vehicals.created_department')
