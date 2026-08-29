@@ -41,21 +41,20 @@ const viewVehicle = async (id: number, formData: any) => {
         formData
     );
 
-    console.log("FULL RESPONSE:", response);
+    
     console.log("RESPONSE DATA:", response.data);
     console.log("Department:", response.data.createdDepartment);
 
     const departmentId =response.data.data.createdDepartment;
-      console.log("adsf",departmentId);
+    const ProvinceId = response.data.data.createdLocation;
     if (departmentId) {
-        const departmentResponse = await LoadDepartmentName(departmentId);
-
-        console.log("Department:", departmentResponse);
-
-        // Add department name to vehicle response
-        response.data.createdDepartment = departmentResponse;
+       const departmentResponse = await LoadDepartmentName(departmentId);
+      response.data.data.createdDepartment = departmentResponse;
     }
-
+    if(ProvinceId)
+    {
+      response.data.data.createdLocation = await LoadProvinceName(ProvinceId);
+    }
     return response.data;
 };
 
@@ -67,6 +66,13 @@ const LoadDepartmentName = async (id: string) => {
 
     return response.data;
 };
+const LoadProvinceName = async (id:number) =>
+{
+        const response = await axios.get(
+        `https://localhost:7161/api/HandlerAPIRequest/LoadUserProvince?id=${id}`
+    );
+    return response.data;
+}
 const update = async (id: number, formData: any) => {
   const response = await axios.post(`api/vehicle/update/${id}`, formData)
   return response.data

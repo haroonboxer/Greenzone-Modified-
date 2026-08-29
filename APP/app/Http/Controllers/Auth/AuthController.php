@@ -114,8 +114,7 @@ class AuthController extends Controller
      */
     private function generateLaravelToken($decoded)
     {
-
-
+        // Roles
         $roles = $decoded->Role ?? [];
 
         if (is_string($roles)) {
@@ -126,6 +125,7 @@ class AuthController extends Controller
             $roles = [];
         }
 
+        // Claims
         $claims = $decoded->role_claims ?? [];
 
         if (is_string($claims)) {
@@ -136,10 +136,10 @@ class AuthController extends Controller
             $claims = [];
         }
 
+        // Permissions
         $permissions = [];
 
         foreach ($claims as $claim) {
-
             if (
                 isset($claim['ClaimType'], $claim['ClaimValue']) &&
                 filter_var($claim['ClaimValue'], FILTER_VALIDATE_BOOLEAN)
@@ -148,10 +148,19 @@ class AuthController extends Controller
             }
         }
 
-        $UserInfo = $decoded->user_info ?? null;
+        // Projects
+        $projects = $decoded->Project ?? [];
 
+        if (is_string($projects)) {
+            $projects = json_decode($projects, true);
+        }
+
+        if (!is_array($projects)) {
+            $projects = [];
+        }
+
+        // UserInfo
         $UserInfo = $decoded->UserInfo ?? $decoded->user_info ?? null;
-
 
         if (is_string($UserInfo)) {
             $userinfo = json_decode($UserInfo, true);
@@ -159,39 +168,42 @@ class AuthController extends Controller
             $userinfo = $UserInfo;
         }
 
+        if (!is_array($userinfo)) {
+            $userinfo = [];
+        }
 
         $payload = [
 
-            // UserModel
-            "id" =>             $userinfo->Id ?? $userinfo['Id'] ?? "",
+            // User
+            "id" => $userinfo['Id'] ?? "",
 
-            "name" =>           $userinfo->Name ?? $userinfo['Name'] ?? "",
-            "LName" =>          $userinfo['UserNameInLocalLang'] ?? "",
-
-            "username" =>       $userinfo->UserName ?? $userinfo["UserName"],
-
-            "email" =>          $userinfo->email ?? $userinfo['email'] ?? "",
-
-            "image" =>          $userinfo->image ?? $userinfo['image'] ?? "",
-
-            "signature" =>      $userinfo->signature ?? $userinfo['signature'] ?? "",
-
-            "departmentId" => $userinfo->DepartmentId ?? $userinfo['DepartmentId'],
-
-            "departmentName" => $userinfo->DepartmentName ?? $userinfo['DepartmentName'] ?? "",
-
-            "provinceId" => $userinfo->ProvinceId ?? $userinfo['ProvinceId'],
-
-            "provinceName" =>   $userinfo->provinceName ?? $userinfo['provinceName'] ?? "",
+            "name" => $userinfo['Name'] ?? "",
 
             "LName" => $userinfo['UserNameInLocalLang'] ?? "",
 
-            // React UserModel expects these names
+            "username" => $userinfo['UserName'] ?? "",
+
+            "email" => $userinfo['email'] ?? "",
+
+            "image" => $userinfo['image'] ?? "",
+
+            "signature" => $userinfo['signature'] ?? "",
+
+            "departmentId" => $userinfo['DepartmentId'] ?? "",
+
+            "departmentName" => $userinfo['DepartmentName'] ?? "",
+
+            "provinceId" => $userinfo['ProvinceId'] ?? "",
+
+            "provinceName" => $userinfo['provinceName'] ?? "",
+
+            // Roles & permissions
             "role" => $roles,
 
             "permissions" => $permissions,
 
-            "systems" => $userinfo->systems ?? $userinfo['systems'] ?? [],
+            // Projects
+            "projects" => $projects,
 
             // JWT
             "iat" => time(),
@@ -205,4 +217,97 @@ class AuthController extends Controller
             "HS256"
         );
     }
+    // private function generateLaravelToken($decoded)
+    // {
+
+
+    //     $roles = $decoded->Role ?? [];
+
+    //     if (is_string($roles)) {
+    //         $roles = json_decode($roles, true);
+    //     }
+
+    //     if (!is_array($roles)) {
+    //         $roles = [];
+    //     }
+
+    //     $claims = $decoded->role_claims ?? [];
+
+    //     if (is_string($claims)) {
+    //         $claims = json_decode($claims, true);
+    //     }
+
+    //     if (!is_array($claims)) {
+    //         $claims = [];
+    //     }
+
+    //     $permissions = [];
+
+    //     foreach ($claims as $claim) {
+
+    //         if (
+    //             isset($claim['ClaimType'], $claim['ClaimValue']) &&
+    //             filter_var($claim['ClaimValue'], FILTER_VALIDATE_BOOLEAN)
+    //         ) {
+    //             $permissions[] = $claim['ClaimType'];
+    //         }
+    //     }
+
+    //     $UserInfo = $decoded->user_info ?? null;
+
+    //     $UserInfo = $decoded->UserInfo ?? $decoded->user_info ?? null;
+
+
+    //     if (is_string($UserInfo)) {
+    //         $userinfo = json_decode($UserInfo, true);
+    //     } else {
+    //         $userinfo = $UserInfo;
+    //     }
+    //     dd($decoded);
+
+    //     $payload = [
+
+    //         // UserModel
+    //         "id" =>             $userinfo->Id ?? $userinfo['Id'] ?? "",
+
+    //         "name" =>           $userinfo->Name ?? $userinfo['Name'] ?? "",
+    //         "LName" =>          $userinfo['UserNameInLocalLang'] ?? "",
+
+    //         "username" =>       $userinfo->UserName ?? $userinfo["UserName"],
+
+    //         "email" =>          $userinfo->email ?? $userinfo['email'] ?? "",
+
+    //         "image" =>          $userinfo->image ?? $userinfo['image'] ?? "",
+
+    //         "signature" =>      $userinfo->signature ?? $userinfo['signature'] ?? "",
+
+    //         "departmentId" => $userinfo->DepartmentId ?? $userinfo['DepartmentId'],
+
+    //         "departmentName" => $userinfo->DepartmentName ?? $userinfo['DepartmentName'] ?? "",
+
+    //         "provinceId" => $userinfo->ProvinceId ?? $userinfo['ProvinceId'],
+
+    //         "provinceName" =>   $userinfo->provinceName ?? $userinfo['provinceName'] ?? "",
+
+    //         "LName" => $userinfo['UserNameInLocalLang'] ?? "",
+
+    //         // React UserModel expects these names
+    //         "role" => $roles,
+
+    //         "permissions" => $permissions,
+
+    //         "systems" => $userinfo->systems ?? $userinfo['systems'] ?? [],
+
+    //         // JWT
+    //         "iat" => time(),
+
+    //         "exp" => time() + 3600,
+    //     ];
+
+    //     return JWT::encode(
+    //         $payload,
+    //         "Laravel-React-Project-Secrute-Key-2027",
+    //         "HS256"
+    //     );
+    // }
 }

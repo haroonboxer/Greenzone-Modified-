@@ -34,7 +34,7 @@ signature: string | null
   email: string
   role: string[]
   permissions: string[]
-  systems: string[]
+  projects: string[]
 }
 
 export class UserModel {

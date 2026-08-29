@@ -20,8 +20,9 @@ const HeaderUserMenu: FC = () => {
               alt='Logo'
               src={currentUser?.image !== '' ? '' : toAbsoluteUrl('/media/images/user_male.png')}
             />
+       
           </div>
-
+ 
           <div className='d-flex flex-column'>
             <div className='fw-bolder d-flex align-items-center fs-5'>
               {currentUser?.name}
