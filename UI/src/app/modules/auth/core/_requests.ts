@@ -48,5 +48,7 @@ export function requestPassword(email: string) {
 // }this one is replaced by the below 
 
 export function getUserByToken() {
-  return axios.post(GET_USER_BY_ACCESSTOKEN_URL)
+  const token = axios.post(GET_USER_BY_ACCESSTOKEN_URL)
+  console.log(token);
+  return token;
 }

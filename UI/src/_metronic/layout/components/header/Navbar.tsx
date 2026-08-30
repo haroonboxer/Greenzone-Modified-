@@ -67,14 +67,22 @@ const Navbar = () => {
   const { config } = useLayout()
   const { currentUser } = useAuth()
 
+  console.log("Projects:", currentUser?.projects);
+    const handleProvinceSelect = (e: React.ChangeEvent<HTMLSelectElement>)=>
+  {
+      const value = e.target.value;
 
-
+      console.log("Selected:", value);
+  }
   return (
     <div className='app-navbar flex-shrink-0'>
-
+   {/* LANGUAGE */}
+      <div className={clsx('app-navbar-item', itemClass)}>
+        <Language toggleBtnClass={clsx('btn-sm btn-custom')} />
+      </div>
       {/* PROJECT DROPDOWN */}
        <div className='app-navbar-item ms-3 ms-lg-4'>
-        <select
+        <select onChange={handleProvinceSelect}
           className='form-select form-select-sm form-select-solid'
           style={{ minWidth: '200px' }}
           defaultValue=''
@@ -86,7 +94,7 @@ const Navbar = () => {
           {currentUser?.projects?.map((project: any, index: number) => (
             <option
               key={index}
-              value={project.BaseUrl}
+              value={project.Id}
             >
               {project.Name}
             </option>
@@ -94,11 +102,8 @@ const Navbar = () => {
         </select>
       </div>
 
-      {/* LANGUAGE */}
-      <div className={clsx('app-navbar-item', itemClass)}>
-        <Language toggleBtnClass={clsx('btn-sm btn-custom')} />
-      </div>
-
+   
+ 
       {/* USER */}
       <div className={clsx('app-navbar-item', itemClass)}>
         <div

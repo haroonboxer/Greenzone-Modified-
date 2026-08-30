@@ -149,7 +149,7 @@ class AuthController extends Controller
         }
 
         // Projects
-        $projects = $decoded->Project ?? [];
+        $projects = $decoded->Projects ?? [];
 
         if (is_string($projects)) {
             $projects = json_decode($projects, true);
@@ -171,7 +171,7 @@ class AuthController extends Controller
         if (!is_array($userinfo)) {
             $userinfo = [];
         }
-
+        // dd($decoded);
         $payload = [
 
             // User

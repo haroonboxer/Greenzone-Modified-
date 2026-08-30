@@ -34,7 +34,12 @@ signature: string | null
   email: string
   role: string[]
   permissions: string[]
-  projects: string[]
+  projects: ProjectModel[]
+}
+
+export interface ProjectModel {
+  Id: number
+  Name: string
 }
 
 export class UserModel {
