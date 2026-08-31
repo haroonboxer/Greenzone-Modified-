@@ -58,7 +58,7 @@ import { useLayout } from '../../core'
 import HeaderUserMenu from '../../../partials/layout/header-menus/HeaderUserMenu'
 import Language from '../../../partials/layout/theme-mode/Language'
 import { useAuth } from '../../../../app/modules/auth'
-
+import axios from 'axios'
 const itemClass = 'ms-1 ms-lg-3'
 const userAvatarClass = 'symbol-35px symbol-md-40px'
 const btnIconClass = 'svg-icon-1'
@@ -68,11 +68,18 @@ const Navbar = () => {
   const { currentUser } = useAuth()
 
   console.log("Projects:", currentUser?.projects);
-    const handleProvinceSelect = (e: React.ChangeEvent<HTMLSelectElement>)=>
+
+    const handleProvinceSelect =async (e: React.ChangeEvent<HTMLSelectElement>)=>
   {
       const value = e.target.value;
+        const response = await axios.get(`api/JumpToOtherProject/${value}`,
+      {
+         withCredentials: true
+      }
+    );
 
-      console.log("Selected:", value);
+    console.log(response.data);
+     
   }
   return (
     <div className='app-navbar flex-shrink-0'>

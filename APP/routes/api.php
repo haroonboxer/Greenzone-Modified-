@@ -21,7 +21,8 @@
 
     Route::get('printed_card/view/{id}', [PrintedCardController::class, 'generateIDCard']);
     Route::get('/card/print/{id}', [CardController::class, 'generateLicense'])->name('card.print');
-
+    Route::middleware('web')->get('JumpToOtherProject/{id}',[AuthController::class, 'JumpToOtherProject']
+);
 
 
 
@@ -55,5 +56,3 @@
         require('card_route.php');
         require('vehicle_save_route.php');
     });
-  
-  

@@ -10,6 +10,9 @@ use App\Models\User;
 use Exception;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use Illuminate\Support\Facades\Http;
+
+use Illuminate\Support\Facades\Cache;
 
 class AuthController extends Controller
 {
@@ -61,16 +64,31 @@ class AuthController extends Controller
              | Store Laravel JWT temporarily
              |--------------------------------------------------------------------------
              */
+            $userId = $decoded->{'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'} ?? null;
 
             session([
                 'react_token' => $laravelToken
             ]);
 
-            /*
-             |--------------------------------------------------------------------------
-             | Redirect React
-             |--------------------------------------------------------------------------
-             */
+
+            session([
+
+                'react_token' => $laravelToken
+            ]);
+
+
+            if (!$userId) {
+                dd('User ID not found');
+            }
+
+            Cache::put(
+                'sso_token_' . $userId,
+                $token,
+                now()->addMinutes(10)
+            );
+
+
+
 
             return redirect("http://127.0.0.1:3011/auth/callback");
         } catch (Exception $ex) {
@@ -171,7 +189,7 @@ class AuthController extends Controller
         if (!is_array($userinfo)) {
             $userinfo = [];
         }
-        // dd($decoded);
+
         $payload = [
 
             // User
@@ -216,6 +234,31 @@ class AuthController extends Controller
             "Laravel-React-Project-Secrute-Key-2027",
             "HS256"
         );
+    }
+    public function JumpToOtherProject($id)
+    {
+
+        $userId = UserId();
+
+        $token = Cache::get('sso_token_' . $userId);
+
+        if (!$token) {
+            return response()->json([
+                'message' => $token
+            ], 401);
+        }
+        // return redirect()->away('https://localhost:7161/Project/JumpBetweenTheProject?projectid=' . $id);
+
+        // $response = Http::withoutVerifying()
+        //     ->withToken($token)
+        //     ->get(
+        //         'https://localhost:7161/Project/JumpBetweenTheProject',
+        //         [
+        //             'projectid' => $id
+        //         ]
+        //     );
+
+        return response()->json(['SSOToken' => "asdf"]);
     }
     // private function generateLaravelToken($decoded)
     // {

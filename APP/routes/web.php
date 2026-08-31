@@ -18,6 +18,7 @@ Route::middleware('auth')->group(function () {
   Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
   // web.php or api.php (make sure this is accessible via GET)
   Route::get('printed_card/view/{id}', [PrintedCardController::class, 'generateIDCard']);
+ 
 });
 
 
