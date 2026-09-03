@@ -67,25 +67,33 @@ const Navbar = () => {
   const { config } = useLayout()
   const { currentUser } = useAuth()
 
-  console.log("Projects:", currentUser?.projects);
+ 
 
     const handleProvinceSelect =async (e: React.ChangeEvent<HTMLSelectElement>)=>
   {
       const value = e.target.value;
-        const response = await axios.get(`api/JumpToOtherProject/${value}`,
-      {
-         withCredentials: true
-      }
-    );
+      //   const response = await axios.get(`api/JumpToOtherProject/${value}`,
+      // {
+      //    withCredentials: true
+      // }
+    // );
+    window.location.href = `https://localhost:7161/Project/JumpBetweenTheProject?projectid=${value}`;
 
-    console.log(response.data);
+ 
      
+  }
+  const handleRedirect =()=>
+  {
+       window.location.href = "https://localhost:7161/home/Index";
   }
   return (
     <div className='app-navbar flex-shrink-0'>
    {/* LANGUAGE */}
       <div className={clsx('app-navbar-item', itemClass)}>
         <Language toggleBtnClass={clsx('btn-sm btn-custom')} />
+      </div>
+          <div className='app-navbar-item ms-3 ms-lg-4'>
+        <button className='btn btn-dark' onClick={handleRedirect}>To Main Page</button>
       </div>
       {/* PROJECT DROPDOWN */}
        <div className='app-navbar-item ms-3 ms-lg-4'>

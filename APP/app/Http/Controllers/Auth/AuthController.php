@@ -247,7 +247,7 @@ class AuthController extends Controller
                 'message' => $token
             ], 401);
         }
-        // return redirect()->away('https://localhost:7161/Project/JumpBetweenTheProject?projectid=' . $id);
+        return redirect()->away('https://localhost:7161/Project/JumpBetweenTheProject?projectid=' . $id);
 
         // $response = Http::withoutVerifying()
         //     ->withToken($token)
